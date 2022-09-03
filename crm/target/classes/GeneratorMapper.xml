@@ -15,10 +15,11 @@
                         connectionURL="jdbc:mysql://localhost:3306/crm?useSSL=false"
                         userId="root"
                         password="123456">
+            <!--MySQL 不支持 schema 或者 catalog 所以需要添加这个-->
+            <!-- 不然会出现生成器把其他数据库的同名表生成下来的问题 -->
+            <!-- 现象就是某个类中出现了数据库表里面没有的字段 -->
+            <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
-
-        <!--防止生成重复代码-->
-        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
 
         <!-- 生成model类，targetPackage指定domain类的包名， targetProject指定生成的domain放在IDEA的哪个工程下面-->
         <javaModelGenerator targetPackage="com.bjpowernode.crm.settings.domain"
