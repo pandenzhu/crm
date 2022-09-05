@@ -137,23 +137,23 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 		//给"全选"按钮添加单击事件
 		$("#chckAll").click(function () {
 			//如果"全选"按钮是选中状态，则列表中所有checkbox都选中
-			/*if(this.checked==true){
+			if(this.checked==true){
 				$("#tBody input[type='checkbox']").prop("checked",true);
 			}else{
 				$("#tBody input[type='checkbox']").prop("checked",false);
-			}*/
+			}
 
 			$("#tBody input[type='checkbox']").prop("checked",this.checked);
 		});
 
-		/*$("#tBody input[type='checkbox']").click(function () {
+		$("#tBody input[type='checkbox']").click(function () {
 			//如果列表中的所有checkbox都选中，则"全选"按钮也选中
 			if($("#tBody input[type='checkbox']").size()==$("#tBody input[type='checkbox']:checked").size()){
 				$("#chckAll").prop("checked",true);
 			}else{//如果列表中的所有checkbox至少有一个没选中，则"全选"按钮也取消
 				$("#chckAll").prop("checked",false);
 			}
-		});*/
+		});
 		$("#tBody").on("click","input[type='checkbox']",function () {
 			//如果列表中的所有checkbox都选中，则"全选"按钮也选中
 			if($("#tBody input[type='checkbox']").size()==$("#tBody input[type='checkbox']:checked").size()){
@@ -175,10 +175,10 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 
 			if(window.confirm("确定删除吗？")){
 				var ids="";
-				$.each(chekkedIds,function () {//id=xxxx&id=xxx&.....&id=xxx&
+				$.each(chekkedIds,function () {
 					ids+="id="+this.value+"&";
 				});
-				ids=ids.substr(0,ids.length-1);//id=xxxx&id=xxx&.....&id=xxx
+				ids=ids.substr(0,ids.length-1);
 
 				//发送请求
 				$.ajax({
@@ -357,7 +357,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 			dataType:'json',
 			success:function (data) {
 				//显示总条数
-				//$("#totalRowsB").text(data.totalRows);
+				$("#totalRowsB").text(data.totalRows);
 				//显示市场活动的列表
 				//遍历activityList，拼接所有行数据
 				var htmlStr="";
@@ -669,7 +669,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 				<div id="demo_pag1"></div>
 			</div>
 
-			<%--<div style="height: 50px; position: relative;top: 30px;">
+			<div style="height: 50px; position: relative;top: 30px;">
 				<div>
 					<button type="button" class="btn btn-default" style="cursor: default;">共<b id="totalRowsB">50</b>条记录</button>
 				</div>
@@ -702,7 +702,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 						</ul>
 					</nav>
 				</div>
-			</div>--%>
+			</div>
 			
 		</div>
 		

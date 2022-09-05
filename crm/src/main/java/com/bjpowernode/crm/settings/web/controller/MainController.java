@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MainController {
     @RequestMapping("workbench/main/index.do")
     public String mainIndex() {
+        //跳转到main/index.jsp
         return "workbench/main/index";
     }
 }
