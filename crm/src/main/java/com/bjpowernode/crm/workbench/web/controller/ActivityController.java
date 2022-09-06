@@ -58,38 +58,62 @@ public class ActivityController {
                 returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
             } else {
                 returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
-                returnObject.setMsg("系统繁忙，请稍后再试.......");
+                returnObject.setMsg("保存创建失败，请稍后再试.......");
             }
         } catch (Exception e) {
             e.printStackTrace();
 
             returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
-            returnObject.setMsg("系统繁忙，请稍后再试.......");
+            returnObject.setMsg("保存创建失败，请稍后再试.......");
         }
         return returnObject;
     }
 
     @RequestMapping("/workbench/activity/queryActivityByConditionForPage.do")
     public @ResponseBody
-    Object queryActivityByConditionForPage(String name,String owner, String startDate, String endDate,
+    Object queryActivityByConditionForPage(String name, String owner, String startDate, String endDate,
                                            int pageNo, int pageSize) {
         //封装参数
-        Map<String,Object> map=new HashMap<>();
-        map.put("name",name);
-        map.put("owner",owner);
-        map.put("startDate",startDate);
-        map.put("endDate",endDate);
-        map.put("pageSize",pageSize);
-        map.put("pageNo",(pageNo-1)*pageSize);
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        map.put("owner", owner);
+        map.put("startDate", startDate);
+        map.put("endDate", endDate);
+        map.put("pageSize", pageSize);
+        map.put("pageNo", (pageNo - 1) * pageSize);
 
         //调用service层方法查询数据
-        List<Activity> activityList =activityService.queryActivityByConditionForPage(map);
-            int totalRows =activityService.selectCountActivityByCondition(map);
-            //根据查询结果查询相应信息
-        Map<String,Object> retMap =new HashMap<>();
-        retMap.put("activityList",activityList);
-        retMap.put("totalRows",totalRows);
+        List<Activity> activityList = activityService.queryActivityByConditionForPage(map);
+        int totalRows = activityService.selectCountActivityByCondition(map);
+        //根据查询结果查询相应信息
+        Map<String, Object> retMap = new HashMap<>();
+        retMap.put("activityList", activityList);
+        retMap.put("totalRows", totalRows);
         return retMap;
-
     }
+
+    @RequestMapping("workbench/activity/deleteActivityIds.do")
+    public @ResponseBody
+    Object deleteActivityByIds(String[] id) {
+        ReturnObject returnObject = new ReturnObject();
+
+        try {
+            //调用service层方法，删除市场活动
+            int ret = activityService.deleteActivityByIds(id);
+            if (ret > 0){
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+
+            }else {
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMsg("删除失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMsg("删除失败");
+        }
+        return returnObject;
+    }
+
+
 }
