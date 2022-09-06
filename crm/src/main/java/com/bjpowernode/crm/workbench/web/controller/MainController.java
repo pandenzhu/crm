@@ -1,4 +1,4 @@
-package com.bjpowernode.crm.settings.web.controller;
+package com.bjpowernode.crm.workbench.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

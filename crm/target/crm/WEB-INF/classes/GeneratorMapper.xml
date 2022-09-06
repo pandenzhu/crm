@@ -68,12 +68,12 @@
                enableDeleteByExample="false"
                enableSelectByExample="false"
                selectByExampleQueryId="false"/>
-        <table tableName="tbl_activity_remark" domainObjectName="ActivityRemark"
+<!--        <table tableName="tbl_activity_remark" domainObjectName="ActivityRemark"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
         <!--
         <table tableName="tbl_clue" domainObjectName="Clue"
                enableCountByExample="false"
