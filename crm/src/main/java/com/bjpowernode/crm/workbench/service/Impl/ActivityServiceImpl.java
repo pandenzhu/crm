@@ -21,11 +21,13 @@ public class ActivityServiceImpl implements ActivityService {
         return activityMapper.insertActivity(activity);
     }
 
+    //根据条件分页查询市场活动列表
     @Override
     public List<Activity> queryActivityByConditionForPage(Map<String, Object> map) {
         return activityMapper.selectActivityByConditionForPage(map);
     }
 
+    //根据条件查询市场活动的总条数
     @Override
     public int selectCountActivityByCondition(Map<String, Object> map) {
         return activityMapper.selectCountActivityByCondition(map);
@@ -36,8 +38,8 @@ public class ActivityServiceImpl implements ActivityService {
         return activityMapper.deleteActivityByIds(ids);
     }
 
-    /*@Override
+    @Override
     public Activity queryActivityById(String id) {
         return activityMapper.selectActivityById(id);
-    }*/
+    }
 }
