@@ -80,7 +80,7 @@ public class ActivityController {
         map.put("startDate", startDate);
         map.put("endDate", endDate);
         map.put("pageSize", pageSize);
-        map.put("pageNo", (pageNo - 1) * pageSize);
+        map.put("beginNo", (pageNo - 1) * pageSize);
 
         //调用service层方法查询数据
         List<Activity> activityList = activityService.queryActivityByConditionForPage(map);
@@ -92,7 +92,7 @@ public class ActivityController {
         return retMap;
     }
 
-    @RequestMapping("workbench/activity/deleteActivityIds.do")
+    @RequestMapping("/workbench/activity/deleteActivityIds.do")
     public @ResponseBody
     Object deleteActivityByIds(String[] id) {
         ReturnObject returnObject = new ReturnObject();
@@ -115,5 +115,11 @@ public class ActivityController {
         return returnObject;
     }
 
+    @RequestMapping("/workbench/activity/queryActivityById.do")
+    public @ResponseBody Object queryActivityById(String id){
+        //根据id查询市场活动
+        Activity activity= activityService.queryActivityById(id);
+        return activity;
+    }
 
 }
