@@ -16,4 +16,7 @@ public interface ActivityService {
     int deleteActivityByIds(String[] ids);
     //根据id查询市场活动信息
     Activity queryActivityById(String id);
+    //保存更新的市场活动
+    int saveEditActivity(Activity activity);
+    //
 }
