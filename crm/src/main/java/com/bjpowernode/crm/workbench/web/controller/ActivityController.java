@@ -69,6 +69,7 @@ public class ActivityController {
         return returnObject;
     }
 
+    //分页查询
     @RequestMapping("/workbench/activity/queryActivityByConditionForPage.do")
     public @ResponseBody
     Object queryActivityByConditionForPage(String name, String owner, String startDate, String endDate,
@@ -120,6 +121,31 @@ public class ActivityController {
         //根据id查询市场活动
         Activity activity= activityService.queryActivityById(id);
         return activity;
+    }
+
+    @RequestMapping("/workbench/activity/saveEditActivity.do")
+    public @ResponseBody Object saveEditActivity( Activity activity,HttpSession session){
+         User user = (User) session.getAttribute(Contants.SESSION_USER);
+         //封装参数
+        activity.setEditTime(DateUtils.dateTimeFormate(new Date()));
+        activity.setEditBy(user.getId());
+
+        ReturnObject returnObject=new ReturnObject();
+
+        try {
+            int ret =activityService.saveEditActivity(activity);
+            if (ret>0){
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+            }else {
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMsg("更新失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMsg("更新失败");
+        }
+        return returnObject;
     }
 
 }

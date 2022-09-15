@@ -33,13 +33,24 @@ public class ActivityServiceImpl implements ActivityService {
         return activityMapper.selectCountActivityByCondition(map);
     }
 
+    //根据ids删除市场活动
     @Override
     public int deleteActivityByIds(String[] ids) {
         return activityMapper.deleteActivityByIds(ids);
     }
 
+    //根据id查询市场活动信息
     @Override
     public Activity queryActivityById(String id) {
         return activityMapper.selectActivityById(id);
     }
+
+    @Override
+    public int saveEditActivity(Activity activity) {
+        return activityMapper.updateActivity(activity);
+    }
+    //保存创建的市场活动
+
+
+
 }
