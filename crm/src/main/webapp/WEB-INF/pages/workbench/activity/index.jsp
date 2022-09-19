@@ -309,6 +309,33 @@
                 window.location.href = "workbench/activity/exportAllActivitys.do";
             });
 
+            //选择导出市场活动
+            $("#exportActivityXzBtn").click(function () {
+                /**收集参数
+                 * 	获取列表中所有被选中的CheckBox（因为查询数据的时候把id值封装在CheckBox复选框的value值中）
+                 *		htmlStr+="<td><input type=\"checkbox\" value=\""+object.id+"\" /></td>";
+                 */
+                    //收集参数
+                    //获取列表中所有被选中的checkbox
+                var checkedIds = $("#tBody input[type='checkbox']:checked");
+                if (checkedIds.size() == 0) {
+                    alert("请选择要导出的市场活动");
+                    return;
+                }
+                    var ids = "";
+                    $.each(checkedIds, function () {
+                        ids += "id=" + this.value + "&";
+                    });
+                    ids = ids.substr(0, ids.length - 1);
+                    //发送同步请求
+                    window.location.href="workbench/activity/exportActivityXz.do?"+ids;
+                    //发送请求完后，把复选框取消选中状态
+                $("#checkAll").prop("checked",false)
+                //当导出市场活动信息后复选框内容全部取消选中
+                $("#tBody").find("input[type='checkbox']").prop("checked",false)
+            });
+
+
             //给"导入"按钮添加单击事件
             $("#importActivityBtn").click(function () {
                 //收集参数

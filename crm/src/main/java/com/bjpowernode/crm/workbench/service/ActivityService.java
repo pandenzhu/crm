@@ -26,4 +26,7 @@ public interface ActivityService {
 
     //查询所有的市场活动
     List<Activity> queryAllActivitys();
+
+    //查询选择导出的市场活动
+    List<Activity> querySelectActivitysByIds(String[] id);
 }

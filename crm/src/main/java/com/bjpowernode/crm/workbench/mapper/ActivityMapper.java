@@ -66,4 +66,11 @@ public interface ActivityMapper {
      */
     List<Activity>selectAllActivitys();
 
+    /**
+     * 根据ids选择导出市场活动
+     * @param id
+     * @return
+     */
+    List<Activity>selectActivitysByIds(String[] id);
+
 }
