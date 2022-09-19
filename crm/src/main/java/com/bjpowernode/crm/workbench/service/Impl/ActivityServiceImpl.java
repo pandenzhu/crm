@@ -45,12 +45,15 @@ public class ActivityServiceImpl implements ActivityService {
         return activityMapper.selectActivityById(id);
     }
 
+    //保存创建的市场活动
     @Override
     public int saveEditActivity(Activity activity) {
         return activityMapper.updateActivity(activity);
     }
-    //保存创建的市场活动
 
-
-
+    //查询所有市场活动
+    @Override
+    public List<Activity> queryAllActivitys() {
+        return activityMapper.selectAllActivitys();
+    }
 }
