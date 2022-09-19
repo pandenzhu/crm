@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.Response;
 import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
@@ -216,34 +217,34 @@ public class ActivityController {
 
         //遍历activityList，创建HSSFRow,生成所有的数据行
         if (activityList != null && activityList.size() > 0) {
-            Activity activity=null;
+            Activity activity = null;
 
-           for (int i = 0;i<activityList.size();i++){
-                activity=activityList.get(i);
+            for (int i = 0; i < activityList.size(); i++) {
+                activity = activityList.get(i);
                 //每遍历出一个activity，生成一行
-                row=sheet.createRow(i+1);
+                row = sheet.createRow(i + 1);
                 //每一行创建11列，每一列的数据从activity中获取
-                cell=row.createCell(0);
+                cell = row.createCell(0);
                 cell.setCellValue(activity.getId());
-                cell=row.createCell(1);
+                cell = row.createCell(1);
                 cell.setCellValue(activity.getOwner());
-                cell=row.createCell(2);
+                cell = row.createCell(2);
                 cell.setCellValue(activity.getName());
-                cell=row.createCell(3);
+                cell = row.createCell(3);
                 cell.setCellValue(activity.getStartDate());
-                cell=row.createCell(4);
+                cell = row.createCell(4);
                 cell.setCellValue(activity.getEndDate());
-                cell=row.createCell(5);
+                cell = row.createCell(5);
                 cell.setCellValue(activity.getCost());
-                cell=row.createCell(6);
+                cell = row.createCell(6);
                 cell.setCellValue(activity.getDescription());
-                cell=row.createCell(7);
+                cell = row.createCell(7);
                 cell.setCellValue(activity.getCreateTime());
-                cell=row.createCell(8);
+                cell = row.createCell(8);
                 cell.setCellValue(activity.getCreateBy());
-                cell=row.createCell(9);
+                cell = row.createCell(9);
                 cell.setCellValue(activity.getEditTime());
-                cell=row.createCell(10);
+                cell = row.createCell(10);
                 cell.setCellValue(activity.getEditBy());
             }
         }
@@ -255,7 +256,7 @@ public class ActivityController {
 
         //把生成的excel文件下载到用户的客户端
         response.setContentType("application/octet-stream;charset=UTF-8");//设置响应类型
-        response.addHeader("Content-Disposition","attachment;filename=activityList.xls");
+        response.addHeader("Content-Disposition", "attachment;filename=activityList.xls");
         //获取输出流
         OutputStream out = response.getOutputStream();
        /* InputStream is = new FileInputStream("C:\\Users\\84564\\Downloads\\activityList.xls");
@@ -267,8 +268,85 @@ public class ActivityController {
         }
         is.close();*/
         //将内存的数据写入到输出流--浏览器
-       wb.write(out);
+        wb.write(out);
         wb.close();
         out.flush();
+    }
+
+    @RequestMapping("/workbench/activity/exportActivityXz.do")
+    @ResponseBody
+    public
+    void querySelectActivitysByIds(String[] id, HttpServletResponse response) throws IOException {
+        //调用service层的方法
+        List<Activity> activityList = activityService.querySelectActivitysByIds(id);
+        //创建excel文件，并把activityList写入到excel文件中
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("市场活动列表");
+        HSSFRow row = sheet.createRow(0);
+        HSSFCell cell = row.createCell(0);
+        cell.setCellValue("ID");
+        cell = row.createCell(1);
+        cell.setCellValue("所有者");
+        cell = row.createCell(2);
+        cell.setCellValue("名称");
+        cell = row.createCell(3);
+        cell.setCellValue("开始日期");
+        cell = row.createCell(4);
+        cell.setCellValue("结束日期");
+        cell = row.createCell(5);
+        cell.setCellValue("成本");
+        cell = row.createCell(6);
+        cell.setCellValue("描述");
+        cell = row.createCell(7);
+        cell.setCellValue("创建时间");
+        cell = row.createCell(8);
+        cell.setCellValue("创建者");
+        cell = row.createCell(9);
+        cell.setCellValue("修改时间");
+        cell = row.createCell(10);
+        cell.setCellValue("修改者");
+
+        //遍历activityList，创建HSSFRow对象，生成所有的数据行
+        if (activityList != null && activityList.size() > 0) {
+            Activity activity = null;
+            for (int i = 0; i < activityList.size(); i++) {
+                activity = activityList.get(i);
+
+                //每遍历出一个activity，生成一行
+                row = sheet.createRow(i + 1);
+                //每一行创建11列，每一列的数据从activity中获取
+                cell = row.createCell(0);
+                cell.setCellValue(activity.getId());
+                cell = row.createCell(1);
+                cell.setCellValue(activity.getOwner());
+                cell = row.createCell(2);
+                cell.setCellValue(activity.getName());
+                cell = row.createCell(3);
+                cell.setCellValue(activity.getStartDate());
+                cell = row.createCell(4);
+                cell.setCellValue(activity.getEndDate());
+                cell = row.createCell(5);
+                cell.setCellValue(activity.getCost());
+                cell = row.createCell(6);
+                cell.setCellValue(activity.getDescription());
+                cell = row.createCell(7);
+                cell.setCellValue(activity.getCreateTime());
+                cell = row.createCell(8);
+                cell.setCellValue(activity.getCreateBy());
+                cell = row.createCell(9);
+                cell.setCellValue(activity.getEditTime());
+                cell = row.createCell(10);
+                cell.setCellValue(activity.getEditBy());
+            }
+
+            response.setContentType("application/octet-stream;charset=UTF-8");
+            response.addHeader("Content-Disposition", "attachment;filename=selectActivityList.xls");
+            OutputStream out = response.getOutputStream();
+
+            wb.write(out);
+
+            wb.close();
+            out.flush();
+        }
     }
 }
