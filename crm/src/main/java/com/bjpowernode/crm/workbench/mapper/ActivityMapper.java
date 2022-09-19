@@ -33,7 +33,7 @@ public interface ActivityMapper {
     List<Activity>selectActivityByConditionForPage(Map<String,Object>map);
 
     /**
-     *
+     *根据条件查询市场活动的总条数
      * @param map
      * @return
      */
@@ -60,5 +60,10 @@ public interface ActivityMapper {
      */
     int updateActivity(Activity activity);
 
+    /**
+     * 查询所有的市场活动
+     * @return
+     */
+    List<Activity>selectAllActivitys();
 
 }
