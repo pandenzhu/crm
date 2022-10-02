@@ -3,6 +3,8 @@ package com.bjpowernode.crm.workbench.web.controller;
 import com.bjpowernode.crm.commons.contants.Contants;
 import com.bjpowernode.crm.commons.domain.ReturnObject;
 import com.bjpowernode.crm.commons.utils.DateUtils;
+import com.bjpowernode.crm.commons.utils.HSSFUtils;
+import com.bjpowernode.crm.commons.utils.POIUtils;
 import com.bjpowernode.crm.commons.utils.UUIDUtils;
 import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.settings.service.UserService;
@@ -12,21 +14,18 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.ws.Response;
 import java.io.*;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ActivityController {
@@ -47,6 +46,12 @@ public class ActivityController {
         return "workbench/activity/index";
     }
 
+    /**
+     * 保存创建的市场活动
+     * @param activity
+     * @param session
+     * @return
+     */
     @RequestMapping("/workbench/activity/saveCreateActivity.do")
     public @ResponseBody
     Object
@@ -77,7 +82,16 @@ public class ActivityController {
         return returnObject;
     }
 
-    //分页查询
+    /**
+     * 分页查询
+     * @param name
+     * @param owner
+     * @param startDate
+     * @param endDate
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
     @RequestMapping("/workbench/activity/queryActivityByConditionForPage.do")
     public @ResponseBody
     Object queryActivityByConditionForPage(String name, String owner, String startDate, String endDate,
@@ -101,6 +115,11 @@ public class ActivityController {
         return retMap;
     }
 
+    /**
+     * 删除市场活动
+     * @param id
+     * @return
+     */
     @RequestMapping("/workbench/activity/deleteActivityIds.do")
     public @ResponseBody
     Object deleteActivityByIds(String[] id) {
@@ -132,6 +151,12 @@ public class ActivityController {
         return activity;
     }
 
+    /**
+     * 保存修改的市场活动
+     * @param activity
+     * @param session
+     * @return
+     */
     @RequestMapping("/workbench/activity/saveEditActivity.do")
     public @ResponseBody
     Object saveEditActivity(Activity activity, HttpSession session) {
@@ -157,29 +182,13 @@ public class ActivityController {
         }
         return returnObject;
     }
-/*
-    @RequestMapping("/workbench/activity/fileDownload.do")
-    public void fileDownload(HttpServletResponse response) throws IOException {
-        //1.设置响应类型
-        response.setContentType("application/octet-stream;charset=UTF-8");
-        //2.获取输出流
-        OutputStream out = response.getOutputStream();
-        //浏览器接收到响应信息之后，默认情况下，直接在显示窗口中打开响应信息；即使打不开，也会调用应用程序打开；只有实在打不开，才会激活文件下载窗口。
-        //可以设置响应头信息，使浏览器接收到响应信息之后，直接激活文件下载窗口，即使能打开也不打开
 
-        //读取excel文件（InputStream),把浏览器输出到（OutputStream）
-        InputStream is = new FileInputStream("C:\\Users\\84564\\Downloads");
-        byte[] buff = new byte[256];
-        int len = 0;
-        while ((len = is.read(buff)) != -1) {
-            out.write(buff, 0, len);
-        }
-        //关闭资源
-        is.close();
-        out.flush();
-    }*/
-
-    @RequestMapping("/workbench/activity/exportAllActivitys.do")
+    /**
+     * 批量导出市场活动
+     * @param response
+     * @throws Exception
+     */
+   @RequestMapping("/workbench/activity/exportAllActivitys.do")
     public void exportAllActivitys(HttpServletResponse response) throws Exception {
         //调用service层方法，查询所有的市场活动
         List<Activity> activityList = activityService.queryAllActivitys();
@@ -248,7 +257,7 @@ public class ActivityController {
                 cell.setCellValue(activity.getEditBy());
             }
         }
-    /*    //根据wb对象生成excel文件
+       /*//根据wb对象生成excel文件
         OutputStream os = new FileOutputStream("C:\\Users\\84564\\Downloads\\activityList.xls");
         //关闭资源
         os.close();
@@ -259,7 +268,7 @@ public class ActivityController {
         response.addHeader("Content-Disposition", "attachment;filename=activityList.xls");
         //获取输出流
         OutputStream out = response.getOutputStream();
-       /* InputStream is = new FileInputStream("C:\\Users\\84564\\Downloads\\activityList.xls");
+      /*  InputStream is = new FileInputStream("C:\\Users\\84564\\Downloads\\activityList.xls");
         //字节缓冲区
         byte[] bytes = new byte[256];
         int len = 0;
@@ -273,9 +282,14 @@ public class ActivityController {
         out.flush();
     }
 
+    /**
+     * 选择导出市场活动
+     * @param id
+     * @param response
+     * @throws IOException
+     */
     @RequestMapping("/workbench/activity/exportActivityXz.do")
-    @ResponseBody
-    public
+    public@ResponseBody
     void querySelectActivitysByIds(String[] id, HttpServletResponse response) throws IOException {
         //调用service层的方法
         List<Activity> activityList = activityService.querySelectActivitysByIds(id);
@@ -349,4 +363,100 @@ public class ActivityController {
             out.flush();
         }
     }
+
+    /**
+     * 配置springmvc的文件上传解析器
+     *
+     */
+    @RequestMapping("/workbench/activity/fileUpload.do")
+    public @ResponseBody Object fileUpload(String userName, MultipartFile myFile) throws Exception{
+        //把文本数据打印到控制台
+        System.out.println("userName="+userName);
+        //把文件在服务指定的目录中生成一个同样的文件
+        String originalFilename=myFile.getOriginalFilename();
+        File file=new File("D:\\course\\",originalFilename);//路径必须手动创建好，文件如果不存在，会自动创建
+        myFile.transferTo(file);
+
+        //返回响应信息
+        ReturnObject returnObject=new ReturnObject();
+        returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+        returnObject.setMsg("上传成功");
+        return returnObject;
+    }
+
+    /**
+     * 导入市场活动
+     * @param activityFile
+     * @param session
+     * @return
+     */
+    @RequestMapping("/workbench/activity/importActivity.do")
+    public @ResponseBody Object importActivity(MultipartFile activityFile,String userName,HttpSession session){
+        System.out.println("userName="+userName);
+        User user=(User) session.getAttribute(Contants.SESSION_USER);
+        ReturnObject returnObject=new ReturnObject();
+        try {
+            //把excel文件写到磁盘目录中
+            /*String originalFilename = activityFile.getOriginalFilename();
+            File file = new File("D:\\course\\18-CRM\\阶段资料\\serverDir\\", originalFilename);//路径必须手动创建好，文件如果不存在，会自动创建
+            activityFile.transferTo(file);*/
+
+            //解析excel文件，获取文件中的数据，并且封装成activityList
+            //根据excel文件生成HSSFWorkbook对象，封装了excel文件的所有信息
+            //InputStream is=new FileInputStream("D:\\course\\18-CRM\\阶段资料\\serverDir\\"+originalFilename);
+
+            InputStream is=activityFile.getInputStream();
+            HSSFWorkbook wb=new HSSFWorkbook(is);
+            //根据wb获取HSSFSheet对象，封装了一页的所有信息
+            HSSFSheet sheet=wb.getSheetAt(0);//页的下标，下标从0开始，依次增加
+            //根据sheet获取HSSFRow对象，封装了一行的所有信息
+            HSSFRow row=null;
+            HSSFCell cell=null;
+            Activity activity=null;
+            List<Activity> activityList=new ArrayList<>();
+            for(int i=1;i<=sheet.getLastRowNum();i++) {//sheet.getLastRowNum()：最后一行的下标
+                row=sheet.getRow(i);//行的下标，下标从0开始，依次增加
+                activity=new Activity();
+                activity.setId(UUIDUtils.getUUID());
+                activity.setOwner(user.getId());
+                activity.setCreateTime(DateUtils.dateTimeFormate(new Date()));
+                activity.setCreateBy(user.getId());
+
+                for(int j=0;j<row.getLastCellNum();j++) {//row.getLastCellNum():最后一列的下标+1
+                    //根据row获取HSSFCell对象，封装了一列的所有信息
+                    cell=row.getCell(j);//列的下标，下标从0开始，依次增加
+
+                    //获取列中的数据
+                    String cellValue=HSSFUtils.getCellValueForStr(cell);
+                    if(j==0){
+                        activity.setName(cellValue);
+                    }else if(j==1){
+                        activity.setStartDate(cellValue);
+                    }else if(j==2){
+                        activity.setEndDate(cellValue);
+                    }else if(j==3){
+                        activity.setCost(cellValue);
+                    }else if(j==4){
+                        activity.setDescription(cellValue);
+                    }
+                }
+
+                //每一行中所有列都封装完成之后，把activity保存到list中
+                activityList.add(activity);
+            }
+
+            //调用service层方法，保存市场活动
+            int ret=activityService.saveCreateActivityList(activityList);
+
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+            returnObject.setRetData(ret);
+        }catch (Exception e){
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMsg("系统忙，请稍后重试....");
+        }
+
+        return returnObject;
+    }
+
 }

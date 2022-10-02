@@ -58,9 +58,14 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     //查询选择导出的市场活动
-
     @Override
     public List<Activity> querySelectActivitysByIds(String[] id) {
         return activityMapper.selectActivitysByIds(id);
+    }
+
+    //导入市场活动
+    @Override
+    public int saveCreateActivityList(List<Activity> activityList) {
+        return activityMapper.insertActivityList(activityList);
     }
 }

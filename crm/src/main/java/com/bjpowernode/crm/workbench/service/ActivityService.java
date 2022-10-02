@@ -29,4 +29,8 @@ public interface ActivityService {
 
     //查询选择导出的市场活动
     List<Activity> querySelectActivitysByIds(String[] id);
+
+    //批量保存导入的市场活动
+    int saveCreateActivityList (List<Activity>activityList);
+
 }
