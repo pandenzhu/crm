@@ -62,20 +62,19 @@
 
 
 
-      <table tableName="tbl_activity" domainObjectName="Activity"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-<!--        <table tableName="tbl_activity_remark" domainObjectName="ActivityRemark"
+  <!--    <table tableName="tbl_activity" domainObjectName="Activity"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
-        <!--
-        <table tableName="tbl_clue" domainObjectName="Clue"
+        <table tableName="tbl_activity_remark" domainObjectName="ActivityRemark"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <!--<table tableName="tbl_clue" domainObjectName="Clue"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
@@ -143,7 +142,7 @@
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>-->
-
+               selectByExampleQueryId="false"/>
+-->
     </context>
 </generatorConfiguration>
