@@ -9,6 +9,8 @@ import com.bjpowernode.crm.commons.utils.UUIDUtils;
 import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.settings.service.UserService;
 import com.bjpowernode.crm.workbench.domain.Activity;
+import com.bjpowernode.crm.workbench.domain.ActivityRemark;
+import com.bjpowernode.crm.workbench.service.ActivityRemarkService;
 import com.bjpowernode.crm.workbench.service.ActivityService;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -35,6 +37,9 @@ public class ActivityController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private ActivityRemarkService activityRemarkService;
 
     @RequestMapping("/workbench/activity/index.do")
     public String activityIndex(HttpServletRequest request) {
@@ -365,26 +370,6 @@ public class ActivityController {
     }
 
     /**
-     * 配置springmvc的文件上传解析器
-     *
-     */
-    @RequestMapping("/workbench/activity/fileUpload.do")
-    public @ResponseBody Object fileUpload(String userName, MultipartFile myFile) throws Exception{
-        //把文本数据打印到控制台
-        System.out.println("userName="+userName);
-        //把文件在服务指定的目录中生成一个同样的文件
-        String originalFilename=myFile.getOriginalFilename();
-        File file=new File("D:\\course\\",originalFilename);//路径必须手动创建好，文件如果不存在，会自动创建
-        myFile.transferTo(file);
-
-        //返回响应信息
-        ReturnObject returnObject=new ReturnObject();
-        returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
-        returnObject.setMsg("上传成功");
-        return returnObject;
-    }
-
-    /**
      * 导入市场活动
      * @param activityFile
      * @param session
@@ -457,6 +442,23 @@ public class ActivityController {
         }
 
         return returnObject;
+    }
+
+    /**
+     * 市场活动详情
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping("/workbench/activity/detailActivity.do")
+    public String queryActivityDetailById(String id,HttpServletRequest request){
+        //调用service方法,查询市场活动详情
+        Activity activity = activityService.queryActivityDetailById(id);
+        List<ActivityRemark> activityRemarkList = activityRemarkService.queryActivityRemarkForDetailByActivityId(id);
+        request.setAttribute("activity",activity);
+        request.setAttribute("activityRemarkList",activityRemarkList);
+        //请求转发
+        return "workbench/activity/detail";
     }
 
 }
