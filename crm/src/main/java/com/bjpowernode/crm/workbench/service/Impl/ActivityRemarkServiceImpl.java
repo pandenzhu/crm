@@ -15,9 +15,24 @@ public class ActivityRemarkServiceImpl implements ActivityRemarkService {
     @Autowired
     private ActivityRemarkMapper activityRemarkMapper;
 
+    /**
+     * 查询市场活动备注信息
+     * @param activityId
+     * @return
+     */
     @Override
     public List<ActivityRemark> queryActivityRemarkForDetailByActivityId(String activityId) {
         return activityRemarkMapper.selectActivityForDetailByActivityId(activityId);
+    }
+
+    /**
+     * 保存创建的市场活动
+     * @param activityRemark
+     * @return
+     */
+    @Override
+    public int saveCreateActivityRemark(ActivityRemark activityRemark) {
+        return activityRemarkMapper.insertActivityRemark(activityRemark);
     }
 }
 
