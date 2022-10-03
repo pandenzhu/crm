@@ -7,5 +7,10 @@ import java.util.List;
 
 public interface ActivityRemarkService {
 
+    //查询市场活动备注信息
     List<ActivityRemark> queryActivityRemarkForDetailByActivityId(String activityId);
+
+    //保存创建的市场活动
+    int saveCreateActivityRemark(ActivityRemark activityRemark);
+
 }
