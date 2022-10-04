@@ -5,7 +5,7 @@ import com.bjpowernode.crm.workbench.domain.Activity;
 import java.util.List;
 import java.util.Map;
 
-public interface ActivityMapper {
+public interface ActivityMapper<list> {
     int deleteByPrimaryKey(String id);
 
     int insert(Activity record);
@@ -20,6 +20,7 @@ public interface ActivityMapper {
 
     /**
      * 保存创建的市场活动
+     *
      * @param activity
      * @return
      */
@@ -27,20 +28,23 @@ public interface ActivityMapper {
 
     /**
      * 根据条件分页查询市场活动列表
+     *
      * @param map
      * @return
      */
-    List<Activity>selectActivityByConditionForPage(Map<String,Object>map);
+    List<Activity> selectActivityByConditionForPage(Map<String, Object> map);
 
     /**
-     *根据条件查询市场活动的总条数
+     * 根据条件查询市场活动的总条数
+     *
      * @param map
      * @return
      */
-    int selectCountActivityByCondition(Map<String,Object>map);
+    int selectCountActivityByCondition(Map<String, Object> map);
 
     /**
      * 根据ids删除市场活动
+     *
      * @param ids
      * @return
      */
@@ -48,6 +52,7 @@ public interface ActivityMapper {
 
     /**
      * 根据id查询市场活动信息
+     *
      * @param id
      * @return
      */
@@ -55,6 +60,7 @@ public interface ActivityMapper {
 
     /**
      * 保存修改的市场活动
+     *
      * @param activity
      * @return
      */
@@ -62,28 +68,34 @@ public interface ActivityMapper {
 
     /**
      * 查询所有的市场活动
+     *
      * @return
      */
-    List<Activity>selectAllActivitys();
+    List<Activity> selectAllActivitys();
 
     /**
      * 根据ids选择导出市场活动
+     *
      * @param id
      * @return
      */
-    List<Activity>selectActivitysByIds(String[] id);
+    List<Activity> selectActivitysByIds(String[] id);
 
     /**
      * 批量保存导入的市场活动
+     *
      * @param activityList
      * @return
      */
-    int insertActivityList(List<Activity>activityList);
+    int insertActivityList(List<Activity> activityList);
 
     /**
-     * 根据id查询尊市场活动的明细信息
+     * 根据id查询市场活动的明细信息
+     *
      * @param id
      * @return
      */
     Activity selectActivityDetailById(String id);
+
+
 }

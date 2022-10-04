@@ -70,7 +70,6 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     //根据id查询市场活动的明细信息
-
     @Override
     public Activity queryActivityDetailById(String id) {
         return activityMapper.selectActivityDetailById(id);

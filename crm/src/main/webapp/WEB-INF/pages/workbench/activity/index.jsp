@@ -267,8 +267,8 @@
                         return;
                     }
                 }
-                var regExp=/^(([1-9]\d*)|0)$/;
-                if(!regExp.test(cost)){
+                var regExp = /^(([1-9]\d*)|0)$/;
+                if (!regExp.test(cost)) {
                     alert("成本只能为非负整数");
                     return;
                 }
@@ -312,8 +312,8 @@
             //选择导出市场活动
             $("#exportActivityXzBtn").click(function () {
                 /**收集参数
-                 * 	获取列表中所有被选中的CheckBox（因为查询数据的时候把id值封装在CheckBox复选框的value值中）
-                 *		htmlStr+="<td><input type=\"checkbox\" value=\""+object.id+"\" /></td>";
+                 *    获取列表中所有被选中的CheckBox（因为查询数据的时候把id值封装在CheckBox复选框的value值中）
+                 *        htmlStr+="<td><input type=\"checkbox\" value=\""+object.id+"\" /></td>";
                  */
                     //收集参数
                     //获取列表中所有被选中的checkbox
@@ -322,17 +322,17 @@
                     alert("请选择要导出的市场活动");
                     return;
                 }
-                    var ids = "";
-                    $.each(checkedIds, function () {
-                        ids += "id=" + this.value + "&";
-                    });
-                    ids = ids.substr(0, ids.length - 1);
-                    //发送同步请求
-                    window.location.href="workbench/activity/exportActivityXz.do?"+ids;
-                    //发送请求完后，把复选框取消选中状态
-                $("#checkAll").prop("checked",false)
+                var ids = "";
+                $.each(checkedIds, function () {
+                    ids += "id=" + this.value + "&";
+                });
+                ids = ids.substr(0, ids.length - 1);
+                //发送同步请求
+                window.location.href = "workbench/activity/exportActivityXz.do?" + ids;
+                //发送请求完后，把复选框取消选中状态
+                $("#checkAll").prop("checked", false)
                 //当导出市场活动信息后复选框内容全部取消选中
-                $("#tBody").find("input[type='checkbox']").prop("checked",false)
+                $("#tBody").find("input[type='checkbox']").prop("checked", false)
             });
 
 
@@ -407,7 +407,7 @@
                 dataType: 'json',
                 success: function (data) {
                     //显示总条数
-                    $("#totalRowsB").text(data.totalRows);
+                    //$("#totalRowsB").text(data.totalRows);
                     //显示市场活动的列表
                     //遍历activityList，拼接所有行数据
                     var htmlStr = "";
@@ -506,57 +506,59 @@
                     </div>
                     <div class="form-group">
 
-                            <label for="create-cost" class="col-sm-2 control-label">成本</label>
-                            <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="create-cost">
-                            </div>
+                        <label for="create-cost" class="col-sm-2 control-label">成本</label>
+                        <div class="col-sm-10" style="width: 300px;">
+                            <input type="text" class="form-control" id="create-cost">
                         </div>
-						<div class="form-group">
-							<label for="create-description" class="col-sm-2 control-label">描述</label>
-							<div class="col-sm-10" style="width: 81%;">
-								<textarea class="form-control" rows="3" id="create-description"></textarea>
-							</div>
-						</div>
-						
-					</form>
-					
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" id="saveCreateActivityBtn">保存</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	
-	<!-- 修改市场活动的模态窗口 -->
-	<div class="modal fade" id="editActivityModal" role="dialog">
-		<div class="modal-dialog" role="document" style="width: 85%;">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel2">修改市场活动</h4>
-				</div>
-				<div class="modal-body">
-				
-					<form class="form-horizontal" role="form">
-						<input type="hidden" id="edit-id">
-						<div class="form-group">
-							<label for="edit-marketActivityOwner" class="col-sm-2 control-label">所有者<span style="font-size: 15px; color: red;">*</span></label>
-							<div class="col-sm-10" style="width: 300px;">
-								<select class="form-control" id="edit-marketActivityOwner">
-									<c:forEach items="${userList}" var="u">
-										<option value="${u.id}">${u.name}</option>
-									</c:forEach>
-								</select>
-							</div>
-                            <label for="edit-marketActivityName" class="col-sm-2 control-label">名称<span style="font-size: 15px; color: red;">*</span></label>
-                            <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="edit-marketActivityName" value="发传单">
-                            </div>
-						</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="create-description" class="col-sm-2 control-label">描述</label>
+                        <div class="col-sm-10" style="width: 81%;">
+                            <textarea class="form-control" rows="3" id="create-description"></textarea>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="saveCreateActivityBtn">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 修改市场活动的模态窗口 -->
+<div class="modal fade" id="editActivityModal" role="dialog">
+    <div class="modal-dialog" role="document" style="width: 85%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel2">修改市场活动</h4>
+            </div>
+            <div class="modal-body">
+
+                <form class="form-horizontal" role="form">
+                    <input type="hidden" id="edit-id">
+                    <div class="form-group">
+                        <label for="edit-marketActivityOwner" class="col-sm-2 control-label">所有者<span
+                                style="font-size: 15px; color: red;">*</span></label>
+                        <div class="col-sm-10" style="width: 300px;">
+                            <select class="form-control" id="edit-marketActivityOwner">
+                                <c:forEach items="${userList}" var="u">
+                                    <option value="${u.id}">${u.name}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <label for="edit-marketActivityName" class="col-sm-2 control-label">名称<span
+                                style="font-size: 15px; color: red;">*</span></label>
+                        <div class="col-sm-10" style="width: 300px;">
+                            <input type="text" class="form-control" id="edit-marketActivityName" value="发传单">
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label for="edit-startTime" class="col-sm-2 control-label">开始日期</label>
