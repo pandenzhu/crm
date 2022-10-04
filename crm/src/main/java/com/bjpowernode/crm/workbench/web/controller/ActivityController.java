@@ -4,7 +4,6 @@ import com.bjpowernode.crm.commons.contants.Contants;
 import com.bjpowernode.crm.commons.domain.ReturnObject;
 import com.bjpowernode.crm.commons.utils.DateUtils;
 import com.bjpowernode.crm.commons.utils.HSSFUtils;
-import com.bjpowernode.crm.commons.utils.POIUtils;
 import com.bjpowernode.crm.commons.utils.UUIDUtils;
 import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.settings.service.UserService;
@@ -18,7 +17,6 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,6 +51,7 @@ public class ActivityController {
 
     /**
      * 保存创建的市场活动
+     *
      * @param activity
      * @param session
      * @return
@@ -89,6 +88,7 @@ public class ActivityController {
 
     /**
      * 分页查询
+     *
      * @param name
      * @param owner
      * @param startDate
@@ -122,6 +122,7 @@ public class ActivityController {
 
     /**
      * 删除市场活动
+     *
      * @param id
      * @return
      */
@@ -158,6 +159,7 @@ public class ActivityController {
 
     /**
      * 保存修改的市场活动
+     *
      * @param activity
      * @param session
      * @return
@@ -190,10 +192,11 @@ public class ActivityController {
 
     /**
      * 批量导出市场活动
+     *
      * @param response
      * @throws Exception
      */
-   @RequestMapping("/workbench/activity/exportAllActivitys.do")
+    @RequestMapping("/workbench/activity/exportAllActivitys.do")
     public void exportAllActivitys(HttpServletResponse response) throws Exception {
         //调用service层方法，查询所有的市场活动
         List<Activity> activityList = activityService.queryAllActivitys();
@@ -289,12 +292,13 @@ public class ActivityController {
 
     /**
      * 选择导出市场活动
+     *
      * @param id
      * @param response
      * @throws IOException
      */
     @RequestMapping("/workbench/activity/exportActivityXz.do")
-    public@ResponseBody
+    public @ResponseBody
     void querySelectActivitysByIds(String[] id, HttpServletResponse response) throws IOException {
         //调用service层的方法
         List<Activity> activityList = activityService.querySelectActivitysByIds(id);
@@ -371,15 +375,17 @@ public class ActivityController {
 
     /**
      * 导入市场活动
+     *
      * @param activityFile
      * @param session
      * @return
      */
     @RequestMapping("/workbench/activity/importActivity.do")
-    public @ResponseBody Object importActivity(MultipartFile activityFile,String userName,HttpSession session){
-        System.out.println("userName="+userName);
-        User user=(User) session.getAttribute(Contants.SESSION_USER);
-        ReturnObject returnObject=new ReturnObject();
+    public @ResponseBody
+    Object importActivity(MultipartFile activityFile, String userName, HttpSession session) {
+        System.out.println("userName=" + userName);
+        User user = (User) session.getAttribute(Contants.SESSION_USER);
+        ReturnObject returnObject = new ReturnObject();
         try {
             //把excel文件写到磁盘目录中
             /*String originalFilename = activityFile.getOriginalFilename();
@@ -390,38 +396,38 @@ public class ActivityController {
             //根据excel文件生成HSSFWorkbook对象，封装了excel文件的所有信息
             //InputStream is=new FileInputStream("D:\\course\\18-CRM\\阶段资料\\serverDir\\"+originalFilename);
 
-            InputStream is=activityFile.getInputStream();
-            HSSFWorkbook wb=new HSSFWorkbook(is);
+            InputStream is = activityFile.getInputStream();
+            HSSFWorkbook wb = new HSSFWorkbook(is);
             //根据wb获取HSSFSheet对象，封装了一页的所有信息
-            HSSFSheet sheet=wb.getSheetAt(0);//页的下标，下标从0开始，依次增加
+            HSSFSheet sheet = wb.getSheetAt(0);//页的下标，下标从0开始，依次增加
             //根据sheet获取HSSFRow对象，封装了一行的所有信息
-            HSSFRow row=null;
-            HSSFCell cell=null;
-            Activity activity=null;
-            List<Activity> activityList=new ArrayList<>();
-            for(int i=1;i<=sheet.getLastRowNum();i++) {//sheet.getLastRowNum()：最后一行的下标
-                row=sheet.getRow(i);//行的下标，下标从0开始，依次增加
-                activity=new Activity();
+            HSSFRow row = null;
+            HSSFCell cell = null;
+            Activity activity = null;
+            List<Activity> activityList = new ArrayList<>();
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {//sheet.getLastRowNum()：最后一行的下标
+                row = sheet.getRow(i);//行的下标，下标从0开始，依次增加
+                activity = new Activity();
                 activity.setId(UUIDUtils.getUUID());
                 activity.setOwner(user.getId());
                 activity.setCreateTime(DateUtils.dateTimeFormate(new Date()));
                 activity.setCreateBy(user.getId());
 
-                for(int j=0;j<row.getLastCellNum();j++) {//row.getLastCellNum():最后一列的下标+1
+                for (int j = 0; j < row.getLastCellNum(); j++) {//row.getLastCellNum():最后一列的下标+1
                     //根据row获取HSSFCell对象，封装了一列的所有信息
-                    cell=row.getCell(j);//列的下标，下标从0开始，依次增加
+                    cell = row.getCell(j);//列的下标，下标从0开始，依次增加
 
                     //获取列中的数据
-                    String cellValue=HSSFUtils.getCellValueForStr(cell);
-                    if(j==0){
+                    String cellValue = HSSFUtils.getCellValueForStr(cell);
+                    if (j == 0) {
                         activity.setName(cellValue);
-                    }else if(j==1){
+                    } else if (j == 1) {
                         activity.setStartDate(cellValue);
-                    }else if(j==2){
+                    } else if (j == 2) {
                         activity.setEndDate(cellValue);
-                    }else if(j==3){
+                    } else if (j == 3) {
                         activity.setCost(cellValue);
-                    }else if(j==4){
+                    } else if (j == 4) {
                         activity.setDescription(cellValue);
                     }
                 }
@@ -431,11 +437,11 @@ public class ActivityController {
             }
 
             //调用service层方法，保存市场活动
-            int ret=activityService.saveCreateActivityList(activityList);
+            int ret = activityService.saveCreateActivityList(activityList);
 
             returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
             returnObject.setRetData(ret);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
             returnObject.setMsg("系统忙，请稍后重试....");
@@ -446,17 +452,18 @@ public class ActivityController {
 
     /**
      * 市场活动详情
+     *
      * @param id
      * @param request
      * @return
      */
     @RequestMapping("/workbench/activity/detailActivity.do")
-    public String queryActivityDetailById(String id,HttpServletRequest request){
+    public String detailActivity(String id, HttpServletRequest request) {
         //调用service方法,查询市场活动详情
         Activity activity = activityService.queryActivityDetailById(id);
-        List<ActivityRemark> activityRemarkList = activityRemarkService.queryActivityRemarkForDetailByActivityId(id);
-        request.setAttribute("activity",activity);
-        request.setAttribute("activityRemarkList",activityRemarkList);
+        List<ActivityRemark> remarkList = activityRemarkService.queryActivityRemarkForDetailByActivityId(id);
+        request.setAttribute("activity", activity);
+        request.setAttribute("remarkList", remarkList);
         //请求转发
         return "workbench/activity/detail";
     }

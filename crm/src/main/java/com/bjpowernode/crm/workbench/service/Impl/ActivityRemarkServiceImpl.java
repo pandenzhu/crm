@@ -17,6 +17,7 @@ public class ActivityRemarkServiceImpl implements ActivityRemarkService {
 
     /**
      * 查询市场活动备注信息
+     *
      * @param activityId
      * @return
      */
@@ -27,12 +28,34 @@ public class ActivityRemarkServiceImpl implements ActivityRemarkService {
 
     /**
      * 保存创建的市场活动
+     *
      * @param activityRemark
      * @return
      */
     @Override
     public int saveCreateActivityRemark(ActivityRemark activityRemark) {
         return activityRemarkMapper.insertActivityRemark(activityRemark);
+    }
+
+    /**
+     * 根据id删除市场活动备注
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public int deleteActivityRemarkById(String id) {
+        return activityRemarkMapper.deleteActivityRemarkById(id);
+    }
+
+    /**
+     * 保存修改市场活动备注
+     * @param activityRemark
+     * @return
+     */
+    @Override
+    public int saveEditActivityRemark(ActivityRemark activityRemark) {
+        return activityRemarkMapper.updateEditActivityRemarkById(activityRemark);
     }
 }
 
