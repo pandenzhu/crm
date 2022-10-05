@@ -22,19 +22,19 @@
         </jdbcConnection>
 
         <!-- 生成model类，targetPackage指定domain类的包名， targetProject指定生成的domain放在IDEA的哪个工程下面-->
-        <javaModelGenerator targetPackage="com.bjpowernode.crm.settings.domain"
+        <javaModelGenerator targetPackage="com.bjpowernode.crm.workbench.domain"
                             targetProject="src/main/java">
             <property name="enableSubPackages" value="false" />
             <property name="trimStrings" value="false" />
         </javaModelGenerator>
 
         <!-- 生成MyBatis的Mapper.xml文件，targetPackage指定mapper.xml文件的包名， targetProject指定生成的mapper.xml放在IDEA的哪个工程下面 -->
-        <sqlMapGenerator targetPackage="com.bjpowernode.crm.settings.mapper" targetProject="src/main/java">
+        <sqlMapGenerator targetPackage="com.bjpowernode.crm.workbench.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="false" />
         </sqlMapGenerator>
 
         <!-- 生成MyBatis的Mapper接口类文件,targetPackage指定Mapper接口类的包名， targetProject指定生成的Mapper接口放在IDEA的哪个工程下面 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.bjpowernode.crm.settings.mapper" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.bjpowernode.crm.workbench.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
@@ -53,12 +53,12 @@
                enableDeleteByExample="false"
                enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
-        <table tableName="tbl_dic_value" domainObjectName="DicValue"
+      <!--  <table tableName="tbl_dic_value" domainObjectName="DicValue"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
 
 
 
@@ -74,13 +74,13 @@
                enableDeleteByExample="false"
                enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
-        <!--<table tableName="tbl_clue" domainObjectName="Clue"
+        <table tableName="tbl_clue" domainObjectName="Clue"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                selectByExampleQueryId="false"/>
-        <table tableName="tbl_clue_remark" domainObjectName="ClueRemark"
+        <!--<table tableName="tbl_clue_remark" domainObjectName="ClueRemark"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
