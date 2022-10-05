@@ -22,19 +22,19 @@
         </jdbcConnection>
 
         <!-- 生成model类，targetPackage指定domain类的包名， targetProject指定生成的domain放在IDEA的哪个工程下面-->
-        <javaModelGenerator targetPackage="com.bjpowernode.crm.workbench.domain"
+        <javaModelGenerator targetPackage="com.bjpowernode.crm.settings.domain"
                             targetProject="src/main/java">
             <property name="enableSubPackages" value="false" />
             <property name="trimStrings" value="false" />
         </javaModelGenerator>
 
         <!-- 生成MyBatis的Mapper.xml文件，targetPackage指定mapper.xml文件的包名， targetProject指定生成的mapper.xml放在IDEA的哪个工程下面 -->
-        <sqlMapGenerator targetPackage="com.bjpowernode.crm.workbench.mapper" targetProject="src/main/java">
+        <sqlMapGenerator targetPackage="com.bjpowernode.crm.settings.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="false" />
         </sqlMapGenerator>
 
         <!-- 生成MyBatis的Mapper接口类文件,targetPackage指定Mapper接口类的包名， targetProject指定生成的Mapper接口放在IDEA的哪个工程下面 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.bjpowernode.crm.workbench.mapper" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.bjpowernode.crm.settings.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
@@ -52,13 +52,13 @@
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
         <table tableName="tbl_dic_value" domainObjectName="DicValue"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>-->
+               selectByExampleQueryId="false"/>
 
 
 
@@ -67,13 +67,13 @@
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>-->
+               selectByExampleQueryId="false"/>
         <table tableName="tbl_activity_remark" domainObjectName="ActivityRemark"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
         <!--<table tableName="tbl_clue" domainObjectName="Clue"
                enableCountByExample="false"
                enableUpdateByExample="false"
@@ -91,9 +91,9 @@
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
 
-        <table tableName="tbl_contacts" domainObjectName="Contacts"
+        <!--<table tableName="tbl_contacts" domainObjectName="Contacts"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
@@ -132,7 +132,7 @@
                enableSelectByExample="false"
                selectByExampleQueryId="false"/>
         <table tableName="tbl_tran_history" domainObjectName="TranHistory"
-               enableCountByExample="false"
+               enableCountByExample="false"`
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
