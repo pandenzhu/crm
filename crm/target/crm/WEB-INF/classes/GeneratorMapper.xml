@@ -52,8 +52,8 @@
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="tbl_dic_value" domainObjectName="DicValue"
+               selectByExampleQueryId="false"/>-->
+      <!--  <table tableName="tbl_dic_value" domainObjectName="DicValue"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
@@ -67,33 +67,33 @@
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>-->
+               selectByExampleQueryId="false"/>
         <table tableName="tbl_activity_remark" domainObjectName="ActivityRemark"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-        <!--<table tableName="tbl_clue" domainObjectName="Clue"
+               selectByExampleQueryId="false"/>-->
+       <!-- <table tableName="tbl_clue" domainObjectName="Clue"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
         <table tableName="tbl_clue_remark" domainObjectName="ClueRemark"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                selectByExampleQueryId="false"/>
-        <table tableName="tbl_clue_activity_relation" domainObjectName="ClueActivityRelation"
+        <!--<table tableName="tbl_clue_activity_relation" domainObjectName="ClueActivityRelation"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false"/>-->
 
-        <table tableName="tbl_contacts" domainObjectName="Contacts"
+        <!--<table tableName="tbl_contacts" domainObjectName="Contacts"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
@@ -132,7 +132,7 @@
                enableSelectByExample="false"
                selectByExampleQueryId="false"/>
         <table tableName="tbl_tran_history" domainObjectName="TranHistory"
-               enableCountByExample="false"
+               enableCountByExample="false"`
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"

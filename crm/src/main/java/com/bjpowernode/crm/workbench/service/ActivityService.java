@@ -1,6 +1,7 @@
 package com.bjpowernode.crm.workbench.service;
 
 import com.bjpowernode.crm.workbench.domain.Activity;
+import com.bjpowernode.crm.workbench.domain.ClueRemark;
 
 import java.util.List;
 import java.util.Map;
@@ -35,4 +36,7 @@ public interface ActivityService {
 
     //根据id查询市场活动的明细信息
     Activity queryActivityDetailById(String id);
+
+    //根据clueId查询该线索相关的市场活动的明细信息
+    List<Activity> queryActivityForDetailByClueId(String clueId);
 }

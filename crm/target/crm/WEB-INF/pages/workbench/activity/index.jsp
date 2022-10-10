@@ -335,7 +335,6 @@
                 $("#tBody").find("input[type='checkbox']").prop("checked", false)
             });
 
-
             //给"导入"按钮添加单击事件
             $("#importActivityBtn").click(function () {
                 //收集参数
