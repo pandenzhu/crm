@@ -99,22 +99,22 @@ public class ClueController {
 
     /**
      * 线索详情
+     *
      * @param id
      * @param request
      * @return
      */
     @RequestMapping("/workbench/clue/detailClue.do")
-    public @ResponseBody
-    String queryClueForDetailById(String id, HttpServletRequest request) {
+    public String queryClueForDetailById(String id, HttpServletRequest request) {
         //调用service层方法，查询数据
         Clue clue = clueService.queryClueForDetailById(id);
         List<ClueRemark> remarkList = clueRemarkService.queryClueRemarkForDetailByClueId(id);
         List<Activity> activityList = activityService.queryActivityForDetailByClueId(id);
 
         //封装参数
-        request.setAttribute("clue",clue);
-        request.setAttribute("remarkList",remarkList);
-        request.setAttribute("activityList",activityList);
+        request.setAttribute("clue", clue);
+        request.setAttribute("remarkList", remarkList);
+        request.setAttribute("activityList", activityList);
 
         //请求转发
         return "workbench/clue/detail";
@@ -122,6 +122,7 @@ public class ClueController {
 
     /**
      * 分页查询
+     *
      * @param
      * @param company
      * @param phone
@@ -134,28 +135,29 @@ public class ClueController {
      * @return
      */
     @RequestMapping("/workbench/clue/queryClueListForPageByCondition.do")
-    public @ResponseBody Object queryClueListForPageByCondition(String fullname,String company,String phone,String source,String owner,String mphone,String state,
-                                                                int pageNo,int pageSize){
+    public @ResponseBody
+    Object queryClueListForPageByCondition(String fullname, String company, String phone, String source, String owner, String mphone, String state,
+                                           int pageNo, int pageSize) {
 
         //封装参数
-        Map<String,Object> map =new HashMap<>();
-        map.put("fullname",fullname);
-        map.put("company",company);
-        map.put("phone",phone);
-        map.put("source",source);
-        map.put("owner",owner);
-        map.put("mphone",mphone);
-        map.put("state",state);
-        map.put("beginNo",(pageNo - 1) * pageSize);
-        map.put("pageSize",pageSize);
+        Map<String, Object> map = new HashMap<>();
+        map.put("fullname", fullname);
+        map.put("company", company);
+        map.put("phone", phone);
+        map.put("source", source);
+        map.put("owner", owner);
+        map.put("mphone", mphone);
+        map.put("state", state);
+        map.put("beginNo", (pageNo - 1) * pageSize);
+        map.put("pageSize", pageSize);
 
         //调用service层方法，查询数据
-        List<Clue> clueList =clueService.queryClueByConditionForPage(map);
+        List<Clue> clueList = clueService.queryClueByConditionForPage(map);
         int totalRows = clueService.queryCountClueByCondition(map);
         //根据查询结果查询相应信息
-        Map<String,Object> retMap = new HashMap<>();
-        retMap.put("clueList",clueList);
-        retMap.put("totalRows",totalRows);
+        Map<String, Object> retMap = new HashMap<>();
+        retMap.put("clueList", clueList);
+        retMap.put("totalRows", totalRows);
         return retMap;
     }
 }

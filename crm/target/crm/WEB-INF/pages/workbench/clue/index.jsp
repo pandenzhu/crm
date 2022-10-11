@@ -26,18 +26,6 @@
 
 		$(function(){
 
-			//当容器加载完成，对容器调用工具函数
-			$(".mydate").datetimepicker({
-				language:'zh-CN',//语言
-				format:'yyyy-mm-dd',//日期格式
-				minView:'month',//日期选择器上最小能选择的日期的视图
-				initialDate:new Date(),// 日历的初始化显示日期，此处默认初始化当前系统时间
-				autoclose:true,//选择日期之后，是否自动关闭日历
-				todayBtn:true,//是否显示当前日期的按钮
-				clearBtn:true,//是否显示清空按钮
-			});
-
-
 			//给"创建"按钮添加单击事件
 			$("#createClueBtn").click(function () {
 				//初始化工作
@@ -350,6 +338,7 @@
 					pageNo:pageNo,
 					pageSize:pageSize
 				},
+				dataType: "json",
 				success:function (data) {
 					var htmlStr = "";
 
@@ -525,7 +514,7 @@
 						<div class="form-group">
 							<label for="create-nextContactTime" class="col-sm-2 control-label">下次联系时间</label>
 							<div class="col-sm-10" style="width: 300px;">
-								<input type="text" class="form-control" id="create-nextContactTime">
+								<input type="text" class="form-control mydate"  id="create-nextContactTime">
 							</div>
 						</div>
 					</div>
@@ -675,7 +664,7 @@
 						<div class="form-group">
 							<label for="edit-address" class="col-sm-2 control-label">详细地址</label>
 							<div class="col-sm-10" style="width: 81%;">
-								<textarea class="form-control" rows="1" id="edit-address">北京大兴区大族企业湾</textarea>
+								<textarea class="form-control" rows="1" id="edit-address"></textarea>
 							</div>
 						</div>
 					</div>
@@ -807,7 +796,7 @@
 			<!--创建容器-->
 			<div id="demo_pag1"></div>
 		</div>
-		<div style="height: 50px; position: relative;top: 30px;">
+		<%--<div style="height: 50px; position: relative;top: 30px;">
 			<div>
 				<button type="button" class="btn btn-default" style="cursor: default;">共<b id="totalRowsB">50</b>条记录
 				</button>
@@ -842,7 +831,7 @@
 				</nav>
 			</div>
 		</div>
-
+--%>
 
 	</div>
 

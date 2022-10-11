@@ -129,10 +129,16 @@
 
     <!--根据clueId查询该线索下所有的备注-->
     <select id="selectClueRemarkForDetailByClueId" parameterType="string" resultMap="BaseResultMap">
-        select cr.id, cr.note_content, u1.name as create_by, cr.create_time, u2.name as edit_by, cr.edit_time, cr.edit_flag
+        select cr.id,
+               cr.note_content,
+               u1.name as create_by,
+               cr.create_time,
+               u2.name as edit_by,
+               cr.edit_time,
+               cr.edit_flag
         from tbl_clue_remark cr
-                 join tbl_user u1 on u1.id = cr.create_by
-                 join tbl_user u2 on u2.id = cr.edit_by
+                 join tbl_user u1 on cr.create_by = u1.id
+                 left join tbl_user u2 on cr.edit_by = u2.id
         where cr.clue_id = #{clueId}
     </select>
 </mapper>

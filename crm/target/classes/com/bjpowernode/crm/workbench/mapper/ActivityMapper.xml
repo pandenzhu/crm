@@ -327,10 +327,10 @@
 
     <!--根据clueId查询该线索相关的市场活动的明细信息-->
     <select id="selectActivityForDetailByClueId" parameterType="string" resultMap="BaseResultMap">
-        select a.id, a.name, a.start_date, a.end_date
+        select a.id, a.name, a.start_date, a.end_date, u.name as owner
         from tbl_activity a
-                 join tbl_user u on u.id = a.owner
-                 join tbl_clue_activity_relation car on car.activity_id = a.id
+                 join tbl_user u on a.owner = u.id
+                 join tbl_clue_activity_relation car on a.id = car.activity_id
         where car.clue_id = #{clueId}
     </select>
 </mapper>
