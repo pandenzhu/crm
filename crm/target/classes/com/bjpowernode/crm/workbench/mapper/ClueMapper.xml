@@ -408,13 +408,4 @@
             address           = #{address}
         where id = #{id}
     </update>
-
-    <!--删除线索-->
-    <delete id="deleteClueByIds" parameterType="string">
-        delete
-            from tbl_clue
-        where id in <foreach collection="array" item="id" separator="," close=")" open="(">
-        #{id}
-    </foreach>
-    </delete>
 </mapper>
