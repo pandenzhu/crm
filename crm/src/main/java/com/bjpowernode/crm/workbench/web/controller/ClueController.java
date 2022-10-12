@@ -162,14 +162,14 @@ public class ClueController {
     }
 
     /**
-     *
      * @param id
      * @return
      */
     @RequestMapping("/workbench/clue/saveEditClueById.do")
-    public@ResponseBody Object saveEditClueById(String id) {
+    public @ResponseBody
+    Object saveEditClueById(String id) {
         //根据id查询线索信息
-        Clue clue =clueService.queryClueById(id);
+        Clue clue = clueService.queryClueById(id);
         return clue;
     }
 
@@ -204,6 +204,28 @@ public class ClueController {
             e.printStackTrace();
             returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
             returnObject.setMsg("更新失败");
+        }
+        return returnObject;
+    }
+
+    @RequestMapping("/workbench/clue/deleteClueByIds.do")
+    public @ResponseBody
+    Object deleteClueByIds(String[] id) {
+        ReturnObject returnObject = new ReturnObject();
+
+        try {
+            int ret = clueService.deleteClueByIds(id);
+            if (ret > 0) {
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+                returnObject.setMsg("删除成功");
+            } else {
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMsg("删除失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMsg("删除失败");
         }
         return returnObject;
     }

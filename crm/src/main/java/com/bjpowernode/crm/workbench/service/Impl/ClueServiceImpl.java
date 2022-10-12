@@ -44,4 +44,9 @@ public class ClueServiceImpl implements ClueService {
     public int saveEditClue(Clue clue) {
         return clueMapper.updateClue(clue);
     }
+
+    @Override
+    public int deleteClueByIds(String[] id) {
+        return clueMapper.deleteClueByIds(id);
+    }
 }
