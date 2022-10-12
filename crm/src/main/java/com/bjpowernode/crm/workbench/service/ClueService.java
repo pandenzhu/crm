@@ -25,4 +25,6 @@ public interface ClueService {
 
     //更新线索
     int saveEditClue(Clue clue);
+//删除线索
+    int deleteClueByIds(String[] id);
 }
