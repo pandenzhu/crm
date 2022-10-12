@@ -23,4 +23,6 @@ public interface ClueRemarkMapper {
      * @return
      */
     List<ClueRemark> selectClueRemarkForDetailByClueId(String clueId);
+
+
 }

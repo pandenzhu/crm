@@ -160,4 +160,51 @@ public class ClueController {
         retMap.put("totalRows", totalRows);
         return retMap;
     }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("/workbench/clue/saveEditClueById.do")
+    public@ResponseBody Object saveEditClueById(String id) {
+        //根据id查询线索信息
+        Clue clue =clueService.queryClueById(id);
+        return clue;
+    }
+
+    /**
+     * 保存修改的市场活动
+     *
+     * @param clue
+     * @param session
+     * @return
+     */
+    @RequestMapping("/workbench/clue/saveUpdateClue.do")
+    public @ResponseBody
+    Object saveEditClueById(Clue clue, HttpSession session) {
+
+        User user = (User) session.getAttribute(Contants.SESSION_USER);
+        //封装参数
+        clue.setEditBy(user.getId());
+        clue.setEditTime(DateUtils.dateTimeFormate(new Date()));
+
+        ReturnObject returnObject = new ReturnObject();
+
+        try {
+            int ret = clueService.saveEditClue(clue);
+            if (ret > 0) {
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+                returnObject.setRetData(ret);
+            } else {
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMsg("更新失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMsg("更新失败");
+        }
+        return returnObject;
+    }
 }

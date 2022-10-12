@@ -1,5 +1,6 @@
 package com.bjpowernode.crm.workbench.service;
 
+import com.bjpowernode.crm.workbench.domain.Activity;
 import com.bjpowernode.crm.workbench.domain.Clue;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface ClueService {
 
     //根据条件查询线索数量
     int queryCountClueByCondition(Map<String,Object>map);
+
+    //根据id查询线索信息
+    Clue queryClueById(String id);
+
+    //更新线索
+    int saveEditClue(Clue clue);
 }

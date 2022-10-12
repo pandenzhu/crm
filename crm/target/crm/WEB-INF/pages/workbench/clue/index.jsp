@@ -164,8 +164,8 @@
 
 				//发送ajax请求
 				$.ajax({
-					url:"workbench/clue/queryClueById.do",
-					type:"get",
+					url:"workbench/clue/saveEditClueById.do",
+					type:"post",
 					data:{
 						id:$("#tBody input[type='checkbox']:checked").val()
 					},
