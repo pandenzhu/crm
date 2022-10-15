@@ -17,4 +17,14 @@ public class ClueRemarkServiceImpl implements ClueRemarkService {
     public List<ClueRemark> queryClueRemarkForDetailByClueId(String clueId) {
         return clueRemarkMapper.selectClueRemarkForDetailByClueId(clueId);
     }
+
+    @Override
+    public int saveCreateClueRemark(ClueRemark clueRemark) {
+        return clueRemarkMapper.insertClueRemark(clueRemark);
+    }
+
+/*    @Override
+    public List<ClueRemark> queryClueRemarkByClueId(String clueId) {
+        return clueRemarkMapper.selectClueRemarkListByClueId(clueId);
+    }*/
 }

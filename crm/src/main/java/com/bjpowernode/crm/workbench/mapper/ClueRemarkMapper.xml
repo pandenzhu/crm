@@ -127,7 +127,7 @@
         where id = #{id,jdbcType=CHAR}
     </update>
 
-    <!--根据clueId查询该线索下所有的备注-->
+    <!--根据clueId查询该线索下的备注详情-->
     <select id="selectClueRemarkForDetailByClueId" parameterType="string" resultMap="BaseResultMap">
         select cr.id,
                cr.note_content,
@@ -141,4 +141,28 @@
                  left join tbl_user u2 on cr.edit_by = u2.id
         where cr.clue_id = #{clueId}
     </select>
+
+    <!--保存创建的线索备注-->
+    <insert id="insertClueRemark" parameterType="com.bjpowernode.crm.workbench.domain.ClueRemark">
+        insert into tbl_clue_remark (id, note_content,create_time, create_by,edit_flag, clue_id)
+        values (#{id}, #{noteContent},#{ createTime},#{ createBy},#{editFlag}, #{clueId})
+    </insert>
+
+<!--
+    &lt;!&ndash;根据clueId查询线索所有备注&ndash;&gt;
+    <select id="selectClueRemarkListByClueId" parameterType="map" resultMap="BaseResultMap" >
+        select
+            cr.note_content,cr.create_time,u.name as create_by,
+            cr.id, cr.create_time, cr.edit_by, cr.edit_time, cr.edit_flag, cr.clue_id
+        from
+            tbl_clue_remark cr
+                left join
+            tbl_user u
+            on
+                cr.create_by = u.id
+        where
+            cr.clue_id = #{clueId}
+    </select>
+-->
+
 </mapper>

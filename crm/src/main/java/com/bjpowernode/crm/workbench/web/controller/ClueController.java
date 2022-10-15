@@ -11,8 +11,10 @@ import com.bjpowernode.crm.settings.service.DicValueService;
 import com.bjpowernode.crm.settings.service.UserService;
 import com.bjpowernode.crm.workbench.domain.Activity;
 import com.bjpowernode.crm.workbench.domain.Clue;
+import com.bjpowernode.crm.workbench.domain.ClueActivityRelation;
 import com.bjpowernode.crm.workbench.domain.ClueRemark;
 import com.bjpowernode.crm.workbench.service.ActivityService;
+import com.bjpowernode.crm.workbench.service.ClueActivityRelationService;
 import com.bjpowernode.crm.workbench.service.ClueRemarkService;
 import com.bjpowernode.crm.workbench.service.ClueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ClueController {
@@ -44,6 +43,9 @@ public class ClueController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private ClueActivityRelationService clueActivityRelationService;
 
     @RequestMapping("/workbench/clue/index.do")
     public String index(HttpServletRequest request) {
@@ -162,6 +164,8 @@ public class ClueController {
     }
 
     /**
+     * 根据id查询线索信息
+     *
      * @param id
      * @return
      */
@@ -174,7 +178,7 @@ public class ClueController {
     }
 
     /**
-     * 保存修改的市场活动
+     * 保存更新的线索
      *
      * @param clue
      * @param session
@@ -208,6 +212,12 @@ public class ClueController {
         return returnObject;
     }
 
+    /**
+     * 删除线索
+     *
+     * @param id
+     * @return
+     */
     @RequestMapping("/workbench/clue/deleteClueByIds.do")
     public @ResponseBody
     Object deleteClueByIds(String[] id) {
@@ -229,4 +239,65 @@ public class ClueController {
         }
         return returnObject;
     }
+
+    /**
+     * 根据name模糊查询市场活动，并且把已经跟clueId关联过的市场活动排除
+     *
+     * @param activityName
+     * @param clueId
+     * @return
+     */
+    @RequestMapping("/workbench/clue/queryActivityForDetailByNameClueId.do")
+    public @ResponseBody
+    Object queryActivityForDetailByNameClueId(String activityName, String clueId) {
+        //封装参数
+        Map<String, Object> map = new HashMap<>();
+        map.put("activityName", activityName);
+        map.put("clueId", clueId);
+        //调用service层方法，查询市场活动
+        List<Activity> activityList = activityService.queryActivityForDetailByNameClueId(map);
+        //根据查询结果，返回响应体信息
+        return activityList;
+    }
+
+    /**
+     * 根据ids查询市场活动的明细信息
+     *
+     * @return
+     */
+
+    @RequestMapping("/workbench/clue/saveBund.do")
+    public @ResponseBody
+    Object saveBund(String[] activityId,String clueId) {
+        ClueActivityRelation car =null;
+        List<ClueActivityRelation> relationList =new ArrayList<>();
+        for (String ai : activityId) {
+            car=new ClueActivityRelation();
+            car.setId(UUIDUtils.getUUID());
+            car.setActivityId(ai);
+            car.setClueId(clueId);
+            relationList.add(car);
+        }
+        ReturnObject returnObject = new ReturnObject();
+
+        try {
+            //调用service方法，批量保存线索和市场活动的关联关系
+            int ret =clueActivityRelationService.saveCreateClueActivityRelationByList(relationList);
+            if (ret>0){
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+                List<Activity>activityList=activityService.queryActivityForDetailByIds(activityId);
+                returnObject.setRetData(activityList);
+            }else {
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMsg("关联失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMsg("关联失败");
+        }
+        return returnObject;
+    }
+
+
 }

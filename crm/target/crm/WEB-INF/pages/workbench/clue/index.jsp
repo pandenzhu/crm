@@ -295,7 +295,7 @@
 					//发送ajax请求
 					$.ajax({
 						url:"workbench/clue/deleteClueByIds.do",
-						type:"get",
+						type:"post",
 						data:ids,
 						success:function (data) {
 							if (data.code == 1) {

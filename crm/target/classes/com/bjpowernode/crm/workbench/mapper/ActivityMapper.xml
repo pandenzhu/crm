@@ -333,4 +333,28 @@
                  join tbl_clue_activity_relation car on a.id = car.activity_id
         where car.clue_id = #{clueId}
     </select>
+
+    <!--根据name模糊查询市场活动，并且把已经跟clueId关联过的市场活动排除-->
+    <select id="selectActivityForDetailByNameClueId" parameterType="map" resultMap="BaseResultMap">
+        select a.id, a.name, a.start_date, a.end_date, u.name as owner
+        from tbl_activity a
+                 join tbl_user u on a.owner = u.id
+        where a.name like '%' #{activityName} '%'
+          and a.id not in (
+            select activity_id
+            from tbl_clue_activity_relation
+            where clue_id = #{clueId}
+        )
+    </select>
+    <!--根据ids查询市场活动的明细信息-->
+    <select id="selectActivityForDetailByIds" parameterType="string" resultMap="BaseResultMap">
+        select a.id, a.name, a.start_date, a.end_date, u.name as owner
+        from tbl_activity a
+        join tbl_user u on a.owner = u.id
+        where a.id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </select>
 </mapper>
