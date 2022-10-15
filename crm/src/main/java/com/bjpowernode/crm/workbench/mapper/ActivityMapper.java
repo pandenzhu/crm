@@ -1,6 +1,7 @@
 package com.bjpowernode.crm.workbench.mapper;
 
 import com.bjpowernode.crm.workbench.domain.Activity;
+import com.bjpowernode.crm.workbench.domain.Clue;
 
 import java.util.List;
 import java.util.Map;
@@ -98,10 +99,23 @@ public interface ActivityMapper<list> {
     Activity selectActivityDetailById(String id);
 
     /**
-     * 根据clueId查询该线索相关的市场活动的明细信息
+     * 根据clueId查询该线索相关联的市场活动的明细信息
      * @param clueId
      * @return
      */
     List<Activity> selectActivityForDetailByClueId(String clueId);
 
+    /**
+     * 根据name模糊查询市场活动，并且把已经跟clueId关联过的市场活动排除
+     * @param map
+     * @return
+     */
+    List<Activity> selectActivityForDetailByNameClueId (Map<String,Object>map);
+
+    /**
+     * 根据ids查询市场活动的明细信息
+     * @param ids
+     * @return
+     */
+    List<Activity> selectActivityForDetailByIds(String[] ids);
 }

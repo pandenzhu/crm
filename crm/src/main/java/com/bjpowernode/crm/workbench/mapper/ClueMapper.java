@@ -1,5 +1,6 @@
 package com.bjpowernode.crm.workbench.mapper;
 
+import com.bjpowernode.crm.workbench.domain.Activity;
 import com.bjpowernode.crm.workbench.domain.Clue;
 
 import java.util.List;
@@ -45,4 +46,28 @@ public interface ClueMapper {
      * @return
      */
     int selectCountClueByCondition(Map<String,Object>map);
+
+    /**
+     * 根据id查询线索信息
+     * @param id
+     * @return
+     */
+    Clue selectClueById(String id);
+
+    /**
+     * 更新线索
+     * @param clue
+     * @return
+     */
+    int updateClue(Clue clue);
+
+    /**
+     * 根据id删除线索
+     * @param id
+     * @return
+     */
+    int deleteClueByIds(String[] id);
+
+
+
 }

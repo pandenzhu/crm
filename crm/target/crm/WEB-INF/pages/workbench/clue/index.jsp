@@ -164,8 +164,8 @@
 
 				//发送ajax请求
 				$.ajax({
-					url:"workbench/clue/queryClueById.do",
-					type:"get",
+					url:"workbench/clue/saveEditClueById.do",
+					type:"post",
 					data:{
 						id:$("#tBody input[type='checkbox']:checked").val()
 					},
@@ -295,11 +295,10 @@
 					//发送ajax请求
 					$.ajax({
 						url:"workbench/clue/deleteClueByIds.do",
-						type:"get",
+						type:"post",
 						data:ids,
 						success:function (data) {
 							if (data.code == 1) {
-								alert("您成功删除" + data.data + "条记录");
 								queryClueListForPageByCondition(1,$("#demo_pag1").bs_pagination('getOption', 'rowsPerPage'));
 							} else {
 								alert("删除失败");

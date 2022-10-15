@@ -1,5 +1,6 @@
 package com.bjpowernode.crm.workbench.service.Impl;
 
+import com.bjpowernode.crm.workbench.domain.Activity;
 import com.bjpowernode.crm.workbench.domain.Clue;
 import com.bjpowernode.crm.workbench.mapper.ClueMapper;
 import com.bjpowernode.crm.workbench.service.ClueService;
@@ -32,5 +33,20 @@ public class ClueServiceImpl implements ClueService {
     @Override
     public int queryCountClueByCondition(Map<String, Object> map) {
         return clueMapper.selectCountClueByCondition(map);
+    }
+
+    @Override
+    public Clue queryClueById(String id) {
+        return clueMapper.selectClueById(id);
+    }
+
+    @Override
+    public int saveEditClue(Clue clue) {
+        return clueMapper.updateClue(clue);
+    }
+
+    @Override
+    public int deleteClueByIds(String[] id) {
+        return clueMapper.deleteClueByIds(id);
     }
 }
