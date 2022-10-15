@@ -15,16 +15,17 @@ public interface ClueService {
     Clue queryClueForDetailById(String id);
 
     //根据条件分页查询线索的列表
-    List<Clue> queryClueByConditionForPage(Map<String,Object>map);
+    List<Clue> queryClueByConditionForPage(Map<String, Object> map);
 
     //根据条件查询线索数量
-    int queryCountClueByCondition(Map<String,Object>map);
+    int queryCountClueByCondition(Map<String, Object> map);
 
     //根据id查询线索信息
     Clue queryClueById(String id);
 
     //更新线索
     int saveEditClue(Clue clue);
-//删除线索
+
+    //删除线索
     int deleteClueByIds(String[] id);
 }
