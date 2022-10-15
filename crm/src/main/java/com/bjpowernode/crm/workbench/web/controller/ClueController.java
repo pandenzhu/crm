@@ -268,11 +268,11 @@ public class ClueController {
 
     @RequestMapping("/workbench/clue/saveBund.do")
     public @ResponseBody
-    Object saveBund(String[] activityId,String clueId) {
-        ClueActivityRelation car =null;
-        List<ClueActivityRelation> relationList =new ArrayList<>();
+    Object saveBund(String[] activityId, String clueId) {
+        ClueActivityRelation car = null;
+        List<ClueActivityRelation> relationList = new ArrayList<>();
         for (String ai : activityId) {
-            car=new ClueActivityRelation();
+            car = new ClueActivityRelation();
             car.setId(UUIDUtils.getUUID());
             car.setActivityId(ai);
             car.setClueId(clueId);
@@ -282,12 +282,12 @@ public class ClueController {
 
         try {
             //调用service方法，批量保存线索和市场活动的关联关系
-            int ret =clueActivityRelationService.saveCreateClueActivityRelationByList(relationList);
-            if (ret>0){
+            int ret = clueActivityRelationService.saveCreateClueActivityRelationByList(relationList);
+            if (ret > 0) {
                 returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
-                List<Activity>activityList=activityService.queryActivityForDetailByIds(activityId);
+                List<Activity> activityList = activityService.queryActivityForDetailByIds(activityId);
                 returnObject.setRetData(activityList);
-            }else {
+            } else {
                 returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
                 returnObject.setMsg("关联失败");
             }
@@ -299,5 +299,26 @@ public class ClueController {
         return returnObject;
     }
 
+    @RequestMapping("/workbench/clue/saveUnbund.do")
+    public @ResponseBody
+    Object saveUnbund(ClueActivityRelation relation) {
+        ReturnObject returnObject = new ReturnObject();
+
+        try {
+            int ret = clueActivityRelationService.saveCreateClueActivityRelationByClueActivityId(relation);
+            if (ret>0){
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+                returnObject.setRetData(ret);
+            }else {
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMsg("删除失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMsg("删除失败");
+        }
+        return returnObject;
+    }
 
 }

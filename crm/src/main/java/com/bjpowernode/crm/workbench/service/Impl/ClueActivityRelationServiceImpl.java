@@ -17,4 +17,9 @@ public class ClueActivityRelationServiceImpl implements ClueActivityRelationServ
     public int saveCreateClueActivityRelationByList(List<ClueActivityRelation> list) {
         return clueActivityRelationMapper.insertClueActivityRelationByList(list);
     }
+
+    @Override
+    public int saveCreateClueActivityRelationByClueActivityId(ClueActivityRelation relation) {
+        return clueActivityRelationMapper.deleteClueActivityRelationByClueActivityId(relation);
+    }
 }
