@@ -148,21 +148,15 @@
         values (#{id}, #{noteContent},#{ createTime},#{ createBy},#{editFlag}, #{clueId})
     </insert>
 
-<!--
-    &lt;!&ndash;根据clueId查询线索所有备注&ndash;&gt;
+    <!--根据clueId查询线索所有备注-->
     <select id="selectClueRemarkListByClueId" parameterType="map" resultMap="BaseResultMap" >
-        select
-            cr.note_content,cr.create_time,u.name as create_by,
-            cr.id, cr.create_time, cr.edit_by, cr.edit_time, cr.edit_flag, cr.clue_id
-        from
-            tbl_clue_remark cr
-                left join
-            tbl_user u
-            on
-                cr.create_by = u.id
-        where
-            cr.clue_id = #{clueId}
+        select<include refid="Base_Column_List"></include>
+        from tbl_clue_remark
+        where clue_id = #{clueId}
     </select>
--->
 
+    <!--删除该线索下的备注-->
+    <delete id="deleteClueRemarkByClueId" parameterType="com.bjpowernode.crm.workbench.domain.ClueRemark">
+        delete from tbl_clue_remark where clue_id=#{clueId};
+    </delete>
 </mapper>

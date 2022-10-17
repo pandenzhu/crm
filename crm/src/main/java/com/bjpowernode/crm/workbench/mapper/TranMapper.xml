@@ -165,7 +165,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.bjpowernode.crm.workbench.domain.Tran">
+    <update id="updateByPrimaryKeySelective" parameterType="com.bjpowernode.crm.workbench.domain.Tran">
     update tbl_tran
     <set>
       <if test="owner != null">
@@ -243,4 +243,10 @@
       next_contact_time = #{nextContactTime,jdbcType=CHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
+
+  <!--保存创建的交易-->
+  <insert id="insertTran" parameterType="com.bjpowernode.crm.workbench.domain.Tran">
+    insert into tbl_tran (id, owner, money, name,expected_date, customer_id, stage,type, source, activity_id,contacts_id, create_by, create_time, description,contact_summary, next_contact_time)
+    values (#{id}, #{owner}, #{money}, #{name},#{expectedDate}, #{customerId}, #{stage},#{type}, #{source}, #{activityId},#{contactsId}, #{createBy}, #{createTime}, #{description},#{contactSummary}, #{nextContactTime})
+  </insert>
 </mapper>

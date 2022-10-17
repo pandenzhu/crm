@@ -47,12 +47,6 @@ public interface ClueMapper {
      */
     int selectCountClueByCondition(Map<String,Object>map);
 
-    /**
-     * 根据id查询线索信息
-     * @param id
-     * @return
-     */
-    Clue selectClueById(String id);
 
     /**
      * 更新线索
@@ -68,6 +62,20 @@ public interface ClueMapper {
      */
     int deleteClueByIds(String[] id);
 
+
+    /**
+     * 根据id查询线索信息
+     * @param id
+     * @return
+     */
+    Clue selectClueById(String id);
+
+    /**
+     * 删除备注
+     * @param id
+     * @return
+     */
+    int deleteClueById(String id);
 
 
 }

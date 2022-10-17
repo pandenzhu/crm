@@ -28,4 +28,7 @@ public interface ClueService {
 
     //删除线索
     int deleteClueByIds(String[] id);
+
+    //线索转换
+    void saveConvertClue(Map<String,Object>map);
 }

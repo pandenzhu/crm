@@ -27,6 +27,19 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 			}
 		});
 
+		//当容器加载完成之后，对容器调用工具函数
+		//$("input[name='mydate']").datetimepicker({
+		$(".mydate").datetimepicker({
+			language: 'zh-CN', //语言
+			format: 'yyyy-mm-dd',//日期的格式
+			minView: 'month', //可以选择的最小视图
+			initialDate: new Date(),//初始化显示的日期
+			autoclose: true,//设置选择完日期或者时间之后，日否自动关闭日历
+			todayBtn: true,//设置是否显示"今天"按钮,默认是false
+			clearBtn: true//设置是否显示"清空"按钮，默认是false
+		});
+
+
 		//给"市场活动源"搜索按钮添加单击事件
 		$("#searchActivityBtn").click(function () {
 			//初始化工作
@@ -95,6 +108,12 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 			//表单验证
 			//money只能是非负整数
 
+			var regExp = /^(([1-9]\d*)|0)$/;
+			if (!regExp.test(money)) {
+				alert("成本只能为非负整数");
+				return;
+			}
+
 			//发送请求
 			$.ajax({
 				url:'workbench/clue/convertClue.do',
@@ -157,20 +176,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 							</tr>
 						</thead>
 						<tbody id="tBody">
-							<%--<tr>
-								<td><input type="radio" name="activity"/></td>
-								<td>发传单</td>
-								<td>2020-10-10</td>
-								<td>2020-10-20</td>
-								<td>zhangsan</td>
-							</tr>
-							<tr>
-								<td><input type="radio" name="activity"/></td>
-								<td>发传单</td>
-								<td>2020-10-10</td>
-								<td>2020-10-20</td>
-								<td>zhangsan</td>
-							</tr>--%>
+
 						</tbody>
 					</table>
 				</div>
@@ -204,7 +210,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 		  </div>
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
 		    <label for="expectedClosingDate">预计成交日期</label>
-		    <input type="text" class="form-control" id="expectedClosingDate">
+		    <input type="text" class="form-control mydate"  id="expectedClosingDate">
 		  </div>
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
 		    <label for="stage">阶段</label>

@@ -19,7 +19,7 @@ public interface ClueRemarkMapper {
     int updateByPrimaryKey(ClueRemark record);
 
     /**
-     * 根据clueId查询该线索下的备注详情
+     * 根据clueId查询该线索下的所有备注详情
      *
      * @param clueId
      * @return
@@ -34,9 +34,16 @@ public interface ClueRemarkMapper {
     int insertClueRemark(ClueRemark clueRemark);
 
     /**
-     * 根据clueId查询线索所有备注
+     * 根据clueId查询线索所有备注信息
       * @param
      * @return
      */
-    /*List<ClueRemark> selectClueRemarkListByClueId(String clueId);*/
+    List<ClueRemark> selectClueRemarkListByClueId(String clueId);
+
+    /**
+     * 删除该线索下的备注
+     * @param clueId
+     * @return
+     */
+    int deleteClueRemarkByClueId(String clueId);
 }

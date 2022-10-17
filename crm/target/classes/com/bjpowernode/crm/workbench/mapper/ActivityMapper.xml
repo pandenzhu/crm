@@ -357,4 +357,17 @@
         </foreach>
 
     </select>
+
+<!--    根据name模糊查询市场活动，并且查询那些跟clueId已经关联的市场活动-->
+    <select id="selectActivityForConvertByNameClueId" parameterType="map" resultMap="BaseResultMap">
+        select a.id, a.name, a.start_date, a.end_date, u.name = owner
+        from tbl_activity a
+                 join tbl_user u on a.owner = u.id
+        where a.name like '%' #{activityName} '%'
+          and a.id in (
+                        select activity_id
+                        from tbl_clue_activity_relation
+                        where clue_id = #{clueId}
+                     )
+    </select>
 </mapper>

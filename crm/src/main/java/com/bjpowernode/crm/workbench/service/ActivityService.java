@@ -46,4 +46,6 @@ public interface ActivityService {
     //根据ids查询市场活动的明细信息
     List<Activity> queryActivityForDetailByIds(String[] ids);
 
+    //根据name模糊查询市场活动，并且查询那些跟clueId已经关联的市场活动
+    List<Activity> queryActivityForConvertByNameClueId(Map<String,Object>map);
 }

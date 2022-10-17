@@ -14,4 +14,11 @@ public interface CustomerMapper {
     int updateByPrimaryKeySelective(Customer record);
 
     int updateByPrimaryKey(Customer record);
+
+    /**
+     * 保存创建的客户
+     * @param customer
+     * @return
+     */
+    int insertCustomer(Customer customer);
 }

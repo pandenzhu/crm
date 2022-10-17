@@ -271,8 +271,11 @@
 
     <!--创建线索-->
     <insert id="insertClue" parameterType="com.bjpowernode.crm.workbench.domain.Clue">
-        insert into tbl_clue(id, fullname, appellation, owner, company, job, email, phone, website, mphone, state,source, create_by, create_time, description, contact_summary,next_contact_time, address)
-        values (#{id},#{ fullname},#{ appellation},#{ owner},#{ company},#{ job},#{ email},#{ phone},#{ website},#{ mphone},#{ state},#{source},#{ createBy},#{ createTime},#{ description},#{ contactSummary},#{nextContactTime},#{ address})
+        insert into tbl_clue(id, fullname, appellation, owner, company, job, email, phone, website, mphone, state,
+                             source, create_by, create_time, description, contact_summary, next_contact_time, address)
+        values (#{id}, #{ fullname}, #{ appellation}, #{ owner}, #{ company}, #{ job}, #{ email}, #{ phone},
+                #{ website}, #{ mphone}, #{ state}, #{source}, #{ createBy}, #{ createTime}, #{ description},
+                #{ contactSummary}, #{nextContactTime}, #{ address})
     </insert>
 
     <!--根据id查询线索明细信息-->
@@ -381,7 +384,8 @@
 
     <!--根据id查询线索信息-->
     <select id="selectClueById" parameterType="string" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from tbl_clue
         where id = #{id}
     </select>
@@ -412,9 +416,15 @@
     <!--删除线索-->
     <delete id="deleteClueByIds" parameterType="string">
         delete
-            from tbl_clue
-        where id in <foreach collection="array" item="id" separator="," close=")" open="(">
-        #{id}
-    </foreach>
+        from tbl_clue
+        where id in
+        <foreach collection="array" item="id" separator="," close=")" open="(">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteClueById" parameterType="string">
+        delete
+        from tbl_clue
+        where id = #{id};
     </delete>
 </mapper>

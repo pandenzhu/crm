@@ -163,19 +163,6 @@ public class ClueController {
         return retMap;
     }
 
-    /**
-     * 根据id查询线索信息
-     *
-     * @param id
-     * @return
-     */
-    @RequestMapping("/workbench/clue/saveEditClueById.do")
-    public @ResponseBody
-    Object saveEditClueById(String id) {
-        //根据id查询线索信息
-        Clue clue = clueService.queryClueById(id);
-        return clue;
-    }
 
     /**
      * 保存更新的线索
@@ -299,6 +286,12 @@ public class ClueController {
         return returnObject;
     }
 
+    /**
+     * 根据clueId和activityId删除线索和市场活动的关联关系
+     *
+     * @param relation
+     * @return
+     */
     @RequestMapping("/workbench/clue/saveUnbund.do")
     public @ResponseBody
     Object saveUnbund(ClueActivityRelation relation) {
@@ -306,10 +299,10 @@ public class ClueController {
 
         try {
             int ret = clueActivityRelationService.saveCreateClueActivityRelationByClueActivityId(relation);
-            if (ret>0){
+            if (ret > 0) {
                 returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
                 returnObject.setRetData(ret);
-            }else {
+            } else {
                 returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
                 returnObject.setMsg("删除失败");
             }
@@ -321,4 +314,82 @@ public class ClueController {
         return returnObject;
     }
 
+
+    /**
+     * 线索转换页面跳转
+     *
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping("/workbench/clue/toConvert.do")
+    public String toConvert(String id, HttpServletRequest request) {
+        //调用service层方法，查询线索的详细信息
+        Clue clue = clueService.queryClueForDetailById(id);
+        List<DicValue> stageList = dicValueService.queryDicValueByTypeCode("stage");
+        //把数据保存到request中
+        request.setAttribute("clue", clue);
+        request.setAttribute("stageList", stageList);
+        //请求转发
+        return "workbench/clue/convert";
+    }
+
+    /**
+     * 根据name模糊查询市场活动，并且查询那些跟clueId已经关联的市场活动
+     *
+     * @param activityName
+     * @param clueId
+     * @return
+     */
+    @RequestMapping("/workbench/clue/queryActivityForConvertByNameClueId.do")
+    public @ResponseBody
+    Object queryActivityForConvertByNameClueId(String activityName, String clueId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("activityName", activityName);
+        map.put("clueId", clueId);
+        List<Activity> activityList = activityService.queryActivityForConvertByNameClueId(map);
+        return activityList;
+    }
+
+    /**
+     * 修改线索
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("/workbench/clue/saveEditClueById.do")
+    public @ResponseBody
+    Object saveEditClueById(String id) {
+        //根据id查询线索信息
+        Clue clue = clueService.queryClueById(id);
+        return clue;
+    }
+
+    @RequestMapping("/workbench/clue/convertClue.do")
+    public @ResponseBody
+    Object convertClue(String clueId, String money, String name, String expectedDate, String stage, String activityId, String isCreateTran, HttpSession session) {
+        //封装参数
+        Map<String, Object> map = new HashMap<>();
+        map.put("clueId", clueId);
+        map.put("money", money);
+        map.put("name", name);
+        map.put("expectedDate", expectedDate);
+        map.put("stage", stage);
+        map.put("activityId", activityId);
+        map.put("isCreateTran", isCreateTran);
+        map.put(Contants.SESSION_USER, session.getAttribute(Contants.SESSION_USER));
+
+        ReturnObject returnObject = new ReturnObject();
+
+        try {
+            clueService.saveConvertClue(map);
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+            returnObject.setMsg("转换成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMsg("转换失败");
+        }
+        return returnObject;
+    }
 }
