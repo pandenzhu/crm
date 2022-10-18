@@ -3,6 +3,7 @@ package com.bjpowernode.crm.workbench.mapper;
 import com.bjpowernode.crm.workbench.domain.Customer;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CustomerMapper {
     int deleteByPrimaryKey(String id);
@@ -30,7 +31,17 @@ public interface CustomerMapper {
      */
     List<Customer> selectAllCustomer();
 
-   /* List<Customer> selectAllCustomer*/
+    /**
+     * 据条件分页查询客户的列表
+     * @param map
+     * @return
+     */
+    List<Customer> selectCustomerByConditionForPage(Map<String,Object> map);
 
-
+    /**
+     * 根据条件查询客户的总条数
+     * @param map
+     * @return
+     */
+    int selectCountOfCustomerByCondition(Map<String,Object>map);
 }
