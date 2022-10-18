@@ -2,6 +2,8 @@ package com.bjpowernode.crm.workbench.mapper;
 
 import com.bjpowernode.crm.workbench.domain.Customer;
 
+import java.util.List;
+
 public interface CustomerMapper {
     int deleteByPrimaryKey(String id);
 
@@ -21,4 +23,14 @@ public interface CustomerMapper {
      * @return
      */
     int insertCustomer(Customer customer);
+
+    /**
+     * 查询所有客户
+     * @return
+     */
+    List<Customer> selectAllCustomer();
+
+   /* List<Customer> selectAllCustomer*/
+
+
 }
