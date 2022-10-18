@@ -196,4 +196,12 @@
                 #{contactSummary},
                 #{nextContactTime}, #{description}, #{address})
     </insert>
+
+    <!--查询所有客户-->
+    <select id="selectAllCustomer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_customer
+        where id=#{id}
+    </select>
 </mapper>

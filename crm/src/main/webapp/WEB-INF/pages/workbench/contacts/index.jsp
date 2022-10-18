@@ -13,15 +13,365 @@
 
 <script type="text/javascript">
 
-	$(function(){
-		
-		//定制字段
-		$("#definedColumns > li").click(function(e) {
-			//防止下拉菜单消失
-	        e.stopPropagation();
-	    });
-		
+	$(function () {
+		//给"创建"按钮添加单击事件
+		$("#createContactsBtn").click(function () {
+			//初始化工作
+			//重置表单
+			$("#createContactsForm").get(0).reset();
+
+			//弹出创建市场活动的模态窗口
+			$("#createContactsModal").modal("show");
+		});
+
+		//给"保存"按钮添加单击事件
+		$("#saveCreateContactsBtn").click(function () {
+			//收集参数
+			var owner = $("#create-marketContactsOwner").val();
+			var name = $.trim($("#create-marketContactsName").val());
+			var startDate = $("#create-startDate").val();
+			var endDate = $("#create-endDate").val();
+			var cost = $.trim($("#create-cost").val());
+			var description = $.trim($("#create-description").val());
+			//表单验证
+			if (owner == "") {
+				alert("所有者不能为空");
+				return;
+			}
+			if (name == "") {
+				alert("名称不能为空");
+				return;
+			}
+			if (startDate != "" && endDate != "") {
+				//使用字符串的大小代替日期的大小
+				if (endDate < startDate) {
+					alert("结束日期不能比开始日期小");
+					return;
+				}
+			}
+			/*
+              正则表达式：
+                 1，语言，语法：定义字符串的匹配模式，可以用来判断指定的具体字符串是否符合匹配模式。
+                 2,语法通则：
+                   1)//:在js中定义一个正则表达式.  var regExp=/...../;
+                   2)^：匹配字符串的开头位置
+                     $: 匹配字符串的结尾
+                   3)[]:匹配指定字符集中的一位字符。 var regExp=/^[abc]$/;
+                                                var regExp=/^[a-z0-9]$/;
+                   4){}:匹配次数.var regExp=/^[abc]{5}$/;
+                        {m}:匹配m此
+                        {m,n}：匹配m次到n次
+                        {m,}：匹配m次或者更多次
+                   5)特殊符号：
+                     \d:匹配一位数字，相当于[0-9]
+                     \D:匹配一位非数字
+                     \w：匹配所有字符，包括字母、数字、下划线。
+                     \W:匹配非字符，除了字母、数字、下划线之外的字符。
+
+                     *:匹配0次或者多次，相当于{0,}
+                     +:匹配1次或者多次，相当于{1,}
+                     ?:匹配0次或者1次，相当于{0,1}
+             */
+			var regExp = /^(([1-9]\d*)|0)$/;
+			if (!regExp.test(cost)) {
+				alert("成本只能为非负整数");
+				return;
+			}
+			//发送请求
+			$.ajax({
+				url: 'workbench/contacts/saveCreateContacts.do',
+				data: {
+					owner: owner,
+					name: name,
+					startDate: startDate,
+					endDate: endDate,
+					cost: cost,
+					description: description
+				},
+				type: 'post',
+				dataType: 'json',
+				success: function (data) {
+					if (data.code == "1") {
+						//关闭模态窗口
+						$("#createContactsModal").modal("hide");
+						//刷新市场活动列，显示第一页数据，保持每页显示条数不变
+						queryContactsByConditionForPage(1, $("#demo_pag1").bs_pagination('getOption', 'rowsPerPage'));
+					} else {
+						//提示信息
+						alert(data.message);
+						//模态窗口不关闭
+						$("#createContactsModal").modal("show");//可以不写。
+					}
+				}
+			});
+		});
+
+		//当容器加载完成之后，对容器调用工具函数
+		//$("input[name='mydate']").datetimepicker({
+		$(".mydate").datetimepicker({
+			language: 'zh-CN', //语言
+			format: 'yyyy-mm-dd',//日期的格式
+			minView: 'month', //可以选择的最小视图
+			initialDate: new Date(),//初始化显示的日期
+			autoclose: true,//设置选择完日期或者时间之后，日否自动关闭日历
+			todayBtn: true,//设置是否显示"今天"按钮,默认是false
+			clearBtn: true//设置是否显示"清空"按钮，默认是false
+		});
+
+		//当市场活动主页面加载完成，查询所有数据的第一页以及所有数据的总条数,默认每页显示10条
+		queryContactsByConditionForPage(1, 10);
+
+		//给"查询"按钮添加单击事件
+		$("#queryContactsBtn").click(function () {
+			//查询所有符合条件数据的第一页以及所有符合条件数据的总条数;
+			queryContactsByConditionForPage(1, $("#demo_pag1").bs_pagination('getOption', 'rowsPerPage'));
+		});
+
+		//给"全选"按钮添加单击事件
+		$("#chckAll").click(function () {
+			//如果"全选"按钮是选中状态，则列表中所有checkbox都选中
+			/*	if(this.checked==true){
+                    $("#tBody input[type='checkbox']").prop("checked",true);
+                }else{
+                    $("#tBody input[type='checkbox']").prop("checked",false);
+                }*/
+
+			$("#tBody input[type='checkbox']").prop("checked", this.checked);
+		});
+
+		/*$("#tBody input[type='checkbox']").click(function () {
+            //如果列表中的所有checkbox都选中，则"全选"按钮也选中
+            if($("#tBody input[type='checkbox']").size()==$("#tBody input[type='checkbox']:checked").size()){
+                $("#chckAll").prop("checked",true);
+            }else{//如果列表中的所有checkbox至少有一个没选中，则"全选"按钮也取消
+                $("#chckAll").prop("checked",false);
+            }
+        });*/
+		$("#tBody").on("click", "input[type='checkbox']", function () {
+			//如果列表中的所有checkbox都选中，则"全选"按钮也选中
+			if ($("#tBody input[type='checkbox']").size() == $("#tBody input[type='checkbox']:checked").size()) {
+				$("#chckAll").prop("checked", true);
+			} else {//如果列表中的所有checkbox至少有一个没选中，则"全选"按钮也取消
+				$("#chckAll").prop("checked", false);
+			}
+		});
+
+		//给"删除"按钮添加单击事件
+		$("#deleteContactsBtn").click(function () {
+			//收集参数
+			//获取列表中所有被选中的checkbox
+			var chekkedIds = $("#tBody input[type='checkbox']:checked");
+			if (chekkedIds.size() == 0) {
+				alert("请选择要删除的市场活动");
+				return;
+			}
+
+			if (window.confirm("确定删除吗？")) {
+				var ids = "";
+				$.each(chekkedIds, function () {
+					ids += "id=" + this.value + "&";
+				});
+				ids = ids.substr(0, ids.length - 1);
+
+				//发送请求
+				$.ajax({
+					url: 'workbench/Contacts/deleteContactsIds.do',
+					data: ids,
+					type: 'post',
+					dataType: 'json',
+					success: function (data) {
+						if (data.code == "1") {
+							//刷新市场活动列表,显示第一页数据,保持每页显示条数不变
+							queryContactsByConditionForPage(1, $("#demo_pag1").bs_pagination('getOption', 'rowsPerPage'));
+						} else {
+							//提示信息
+							alert(data.message);
+						}
+					}
+				});
+			}
+		});
+
+		//给"修改"按钮添加单击事件
+		$("#editContactsBtn").click(function () {
+			//收集参数
+			//获取列表中被选中的checkbox
+			var chkedIds = $("#tBody input[type='checkbox']:checked");
+			if (chkedIds.size() == 0) {
+				alert("请选择要修改的市场活动");
+				return;
+			}
+			if (chkedIds.size() > 1) {
+				alert("每次只能修改一条市场活动");
+				return;
+			}
+			//var id=chkedIds.val();
+			//var id=chkedIds.get(0).value;
+			var id = chkedIds[0].value;
+			//发送请求
+			$.ajax({
+				url: 'workbench/Contacts/querycontactsById.do',
+				data: {
+					id: id
+				},
+				type: 'post',
+				dataType: 'json',
+				success: function (data) {
+					//把市场活动的信息显示在修改的模态窗口上
+					$("#edit-id").val(data.id);
+					$("#edit-marketContactsOwner").val(data.owner);
+					$("#edit-marketContactsName").val(data.name);
+					$("#edit-startTime").val(data.startDate);
+					$("#edit-endTime").val(data.endDate);
+					$("#edit-cost").val(data.cost);
+					$("#edit-description").val(data.description);
+					//弹出模态窗口
+					$("#editContactsModal").modal("show");
+				}
+			});
+		});
+
+		//给"更新"按钮添加单击事件
+		$("#saveEditContactsBtn").click(function () {
+			//收集参数
+			var id = $("#edit-id").val();
+			var owner = $("#edit-marketContactsOwner").val();
+			var name = $.trim($("#edit-marketContactsName").val());
+			var startDate = $("#edit-startTime").val();
+			var endDate = $("#edit-endTime").val();
+			var cost = $.trim($("#edit-cost").val());
+			var description = $.trim($("#edit-description").val());
+			//表单验证(作业)
+
+			if (owner == "") {
+				alert("所有者不能为空");
+				return;
+			}
+			if (name == "") {
+				alert("名称不能为空");
+				return;
+			}
+			if (startDate != "" && endDate != "") {
+				//使用字符串的大小代替日期的大小
+				if (endDate < startDate) {
+					alert("结束日期不能比开始日期小");
+					return;
+				}
+			}
+			var regExp = /^(([1-9]\d*)|0)$/;
+			if (!regExp.test(cost)) {
+				alert("成本只能为非负整数");
+				return;
+			}
+
+			//发送请求
+			$.ajax({
+				url: 'workbench/contacts/saveEditContacts.do',
+				data: {
+					id: id,
+					owner: owner,
+					name: name,
+					startDate: startDate,
+					endDate: endDate,
+					cost: cost,
+					description: description
+				},
+				type: 'post',
+				dataType: 'json',
+				success: function (data) {
+					if (data.code == "1") {
+						//关闭模态窗口
+						$("#editContactsModal").modal("hide");
+						//刷新市场活动列表,保持页号和每页显示条数都不变
+						queryContactsByConditionForPage($("#demo_pag1").bs_pagination('getOption', 'currentPage'), $("#demo_pag1").bs_pagination('getOption', 'rowsPerPage'));
+					} else {
+						//提示信息
+						alert(data.message);
+						//模态窗口不关闭
+						$("#editContactsModal").modal("show");
+					}
+				}
+			});
+		});
+
+
 	});
+
+	function queryContactsByConditionForPage(pageNo, pageSize) {
+		//收集参数
+		var name = $("#query-name").val();
+		var owner = $("#query-owner").val();
+		var startDate = $("#query-startDate").val();
+		var endDate = $("#query-endDate").val();
+		//var pageNo=1;
+		//var pageSize=10;
+		//发送请求
+		$.ajax({
+			url: 'workbench/contacts/queryContactsByConditionForPage.do',
+			data: {
+				name: name,
+				owner: owner,
+				startDate: startDate,
+				endDate: endDate,
+				pageNo: pageNo,
+				pageSize: pageSize
+			},
+			type: 'post',
+			dataType: 'json',
+			success: function (data) {
+				//显示总条数
+				//$("#totalRowsB").text(data.totalRows);
+				//显示市场活动的列表
+				//遍历ContactsList，拼接所有行数据
+				var htmlStr = "";
+				$.each(data.ContactsList, function (index, obj) {
+					htmlStr += "<tr class=\"active\">";
+					htmlStr += "<td><input type=\"checkbox\" value=\"" + obj.id + "\"/></td>";
+					htmlStr += "<td><a style=\"text-decoration: none; cursor: pointer;\" onclick=\"window.location.href='workbench/Contacts/detailContacts.do?id=" + obj.id + "'\">" + obj.name + "</a></td>";
+					htmlStr += "<td>" + obj.owner + "</td>";
+					htmlStr += "<td>" + obj.startDate + "</td>";
+					htmlStr += "<td>" + obj.endDate + "</td>";
+					htmlStr += "</tr>";
+				});
+				$("#tBody").html(htmlStr);
+
+				//取消"全选"按钮
+				$("#chckAll").prop("checked", false);
+
+				//计算总页数
+				var totalPages = 1;
+				if (data.totalRows % pageSize == 0) {
+					totalPages = data.totalRows / pageSize;
+				} else {
+					totalPages = parseInt(data.totalRows / pageSize) + 1;
+				}
+
+				//对容器调用bs_pagination工具函数，显示翻页信息
+				$("#demo_pag1").bs_pagination({
+					currentPage: pageNo,//当前页号,相当于pageNo
+
+					rowsPerPage: pageSize,//每页显示条数,相当于pageSize
+					totalRows: data.totalRows,//总条数
+					totalPages: totalPages,  //总页数,必填参数.
+
+					visiblePageLinks: 5,//最多可以显示的卡片数
+
+					showGoToPage: true,//是否显示"跳转到"部分,默认true--显示
+					showRowsPerPage: true,//是否显示"每页显示条数"部分。默认true--显示
+					showRowsInfo: true,//是否显示记录的信息，默认true--显示
+
+					//用户每次切换页号，都自动触发本函数;
+					//每次返回切换页号之后的pageNo和pageSize
+					onChangePage: function (event, pageObj) { // returns page_num and rows_per_page after a link has clicked
+						//js代码
+						//alert(pageObj.currentPage);
+						//alert(pageObj.rowsPerPage);
+						queryContactsByConditionForPage(pageObj.currentPage, pageObj.rowsPerPage);
+					}
+				});
+			}
+		});
+	}
 	
 </script>
 </head>
