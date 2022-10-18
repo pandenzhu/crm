@@ -97,4 +97,30 @@ public class CustomerController {
         retMap.put("totalRows",totalRows);
         return retMap;
     }
+
+    @RequestMapping("/workbench/customer/queryCustomerById.do")
+    public @ResponseBody Object queryCustomerById(String id){
+        Customer customer=  customerService.queryCustomerById(id);
+        return customer;
+    }
+
+    @RequestMapping("/workbench/customer/saveEditCustomer.do")
+    public @ResponseBody Object saveEditCustomer(Customer customer,HttpSession session){
+
+        User user = (User) session.getAttribute(Contants.SESSION_USER);
+        customer.setEditBy(user.getId());
+        customer.setEditTime(DateUtils.dateTimeFormate(new Date()));
+
+        ReturnObject returnObject=new ReturnObject();
+        try {
+            int ret =customerService.saveEditCustomer(customer);
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+            returnObject.setRetData(ret);
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMsg("修改失败");
+        }
+        return returnObject;
+    }
 }

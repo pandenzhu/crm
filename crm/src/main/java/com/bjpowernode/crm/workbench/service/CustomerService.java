@@ -18,4 +18,10 @@ public interface CustomerService {
 
     //根据条件查询客户的总条数
     int queryCountOfCustomerByCondition(Map<String,Object>map);
+
+    //根据id查询市场活动信息
+    Customer queryCustomerById(String id);
+
+    //修改客户
+    int saveEditCustomer(Customer customer);
 }

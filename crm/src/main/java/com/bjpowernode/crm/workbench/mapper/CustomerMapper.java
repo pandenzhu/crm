@@ -44,4 +44,18 @@ public interface CustomerMapper {
      * @return
      */
     int selectCountOfCustomerByCondition(Map<String,Object>map);
+
+    /**
+     * 根据id查询市场活动信息
+     * @param id
+     * @return
+     */
+    Customer selectCustomerById(String id);
+
+    /**
+     * 修改客户
+     * @param customer
+     * @return
+     */
+    int updateCustomer(Customer customer);
 }

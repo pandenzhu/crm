@@ -29,7 +29,7 @@
                 //重置表单
                 $("#createCustomerForm").get(0).reset();
 
-                //弹出创建市场活动的模态窗口
+                //弹出创建客户的模态窗口
                 $("#createCustomerModal").modal("show");
             });
 
@@ -184,12 +184,14 @@
                     success: function (data) {
                         //把市场活动的信息显示在修改的模态窗口上
                         $("#edit-id").val(data.id);
-                        $("#edit-marketCustomerOwner").val(data.owner);
-                        $("#edit-marketCustomerName").val(data.name);
-                        $("#edit-startTime").val(data.startDate);
-                        $("#edit-endTime").val(data.endDate);
-                        $("#edit-cost").val(data.cost);
+                        $("#edit-owner").val(data.owner);
+                        $("#edit-name").val(data.name);
+                        $("#edit-website").val(data.website);
+                        $("#edit-phone").val(data.phone);
+                        $("#edit-contactSummary").val(data.contactSummary);
                         $("#edit-description").val(data.description);
+                        $("#edit-nextContactTime").val(data.nextContactTime);
+                        $("#edit-address").val(data.address);
                         //弹出模态窗口
                         $("#editCustomerModal").modal("show");
                     }
@@ -200,12 +202,14 @@
             $("#saveEditCustomerBtn").click(function () {
                 //收集参数
                 var id = $("#edit-id").val();
-                var owner = $("#edit-marketCustomerOwner").val();
-                var name = $.trim($("#edit-marketCustomerName").val());
-                var startDate = $("#edit-startTime").val();
-                var endDate = $("#edit-endTime").val();
-                var cost = $.trim($("#edit-cost").val());
+                var owner = $("#edit-owner").val();
+                var name = $.trim($("#edit-name").val());
+                var website = $("#edit-website").val();
+                var phone = $("#edit-phone").val();
+                var contactSummary = $.trim($("#edit-contactSummary").val());
                 var description = $.trim($("#edit-description").val());
+                var nextContactTime = $.trim($("#edit-nextContactTime").val());
+                var address = $.trim($("#edit-address").val());
                 //表单验证(作业)
 
                 if (owner == "") {
@@ -216,18 +220,6 @@
                     alert("名称不能为空");
                     return;
                 }
-                if (startDate != "" && endDate != "") {
-                    //使用字符串的大小代替日期的大小
-                    if (endDate < startDate) {
-                        alert("结束日期不能比开始日期小");
-                        return;
-                    }
-                }
-                var regExp = /^(([1-9]\d*)|0)$/;
-                if (!regExp.test(cost)) {
-                    alert("成本只能为非负整数");
-                    return;
-                }
 
                 //发送请求
                 $.ajax({
@@ -236,10 +228,12 @@
                         id: id,
                         owner: owner,
                         name: name,
-                        startDate: startDate,
-                        endDate: endDate,
-                        cost: cost,
-                        description: description
+                        website: website,
+                        phone: phone,
+                        contactSummary: contactSummary,
+                        description: description,
+                        nextContactTime: nextContactTime,
+                        address: address
                     },
                     type: 'post',
                     dataType: 'json',
@@ -285,10 +279,11 @@
                 dataType: 'json',
                 success: function (data) {
                     var htmlStr = "";
+
                     $.each(data.customerList, function (index, obj) {
-                        htmlStr += "<tr class=\"active\">";
+                        htmlStr += "<tr>";
                         htmlStr += "<td><input type=\"checkbox\" value=\"" + obj.id + "\"/></td>";
-                        htmlStr += "<td><a style=\"text-decoration: none; cursor: pointer;\" onclick=\"window.location.href='workbench/customer/detailCustomer.do?id=" + obj.id + "'\">" + obj.name + "</a></td>";
+                        htmlStr += "<td><a style=\"text-decoration: none; cursor: pointer;\" onclick=\"window.location.href='workbench/customer/detailCustomer.do?id=" + obj.id + "';\">" + obj.name + "</a></td>";
                         htmlStr += "<td>" + obj.owner + "</td>";
                         htmlStr += "<td>" + obj.phone + "</td>";
                         htmlStr += "<td>" + obj.website + "</td>";
@@ -436,7 +431,7 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
-
+                    <input type="hidden" id="edit-id">
                     <div class="form-group">
                         <label for="edit-owner" class="col-sm-2 control-label">所有者<span
                                 style="font-size: 15px; color: red;">*</span></label>
@@ -477,9 +472,9 @@
 
                     <div style="position: relative;top: 15px;">
                         <div class="form-group">
-                            <label for="create-contactSummary1" class="col-sm-2 control-label">联系纪要</label>
+                            <label for="edit-contactSummary" class="col-sm-2 control-label">联系纪要</label>
                             <div class="col-sm-10" style="width: 81%;">
-                                <textarea class="form-control" rows="3" id="create-contactSummary1"></textarea>
+                                <textarea class="form-control" rows="3" id="edit-contactSummary"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -562,13 +557,13 @@
         <div class="btn-toolbar" role="toolbar"
              style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
             <div class="btn-group" style="position: relative; top: 18%;">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createCustomerModal">
+                <button type="button" class="btn btn-primary" data-toggle="modal" id="createCustomerBtn" >
                     <span class="glyphicon glyphicon-plus"></span> 创建
                 </button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editCustomerModal"><span
+                <button type="button" class="btn btn-default"  data-toggle="modal" id="editCustomerBtn"><span
                         class="glyphicon glyphicon-pencil"></span> 修改
                 </button>
-                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> 删除</button>
+                <button type="button" class="btn btn-danger" id="deleteCustomerBtn"><span class="glyphicon glyphicon-minus"></span> 删除</button>
             </div>
 
         </div>
@@ -576,7 +571,7 @@
             <table class="table table-hover">
                 <thead>
                 <tr style="color: #B3B3B3;">
-                    <td><input type="checkbox"/></td>
+                    <td><input type="checkbox" id="checkAll"/></td>
                     <td>名称</td>
                     <td>所有者</td>
                     <td>公司座机</td>
@@ -584,60 +579,12 @@
                 </tr>
                 </thead>
                 <tbody id="tBody">
-                <%--<tr>
-                    <td><input type="checkbox" /></td>
-                    <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.html';">动力节点</a></td>
-                    <td>zhangsan</td>
-                    <td>010-84846003</td>
-                    <td>http://www.bjpowernode.com</td>
-                </tr>
-                <tr class="active">
-                    <td><input type="checkbox" /></td>
-                    <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.html';">动力节点</a></td>
-                    <td>zhangsan</td>
-                    <td>010-84846003</td>
-                    <td>http://www.bjpowernode.com</td>
-                </tr>--%>
+
                 </tbody>
             </table>
             <div id="demo_pag1"></div>
         </div>
 
-        <%--<div style="height: 50px; position: relative;top: 30px;">
-            <div>
-                <button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
-            </div>
-            <div class="btn-group" style="position: relative;top: -34px; left: 110px;">
-                <button type="button" class="btn btn-default" style="cursor: default;">显示</button>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        10
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">20</a></li>
-                        <li><a href="#">30</a></li>
-                    </ul>
-                </div>
-                <button type="button" class="btn btn-default" style="cursor: default;">条/页</button>
-            </div>
-            <div style="position: relative;top: -88px; left: 285px;">
-                <nav>
-                    <ul class="pagination">
-                        <li class="disabled"><a href="#">首页</a></li>
-                        <li class="disabled"><a href="#">上一页</a></li>
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">下一页</a></li>
-                        <li class="disabled"><a href="#">末页</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
---%>
     </div>
 
 </div>

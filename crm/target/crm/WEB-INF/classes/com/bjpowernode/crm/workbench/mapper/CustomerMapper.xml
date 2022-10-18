@@ -200,7 +200,7 @@
     <!--查询所有客户-->
     <select id="selectAllCustomer" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List"/>
+        id, owner, name, website, phone, create_by, create_time, edit_by, edit_time, contact_summary, next_contact_time, description, address
         from tbl_customer
         where id=#{id}
     </select>
@@ -223,7 +223,7 @@
         from tbl_customer c
         join tbl_user u1 on c.owner = u1.id
         join tbl_user u2 on c.create_by = u2.id
-       left join tbl_user u3 on c.edit_by = u3.id
+        left join tbl_user u3 on c.edit_by = u3.id
 
         <where>
             <if test="name !=null and name!=''">
@@ -249,8 +249,7 @@
         from tbl_customer c
         join tbl_user u1 on c.owner = u1.id
         join tbl_user u2 on c.create_by = u2.id
-       left join tbl_user u3 on c.edit_by = u3.id
-
+        left join tbl_user u3 on c.edit_by = u3.id
         <where>
             <if test="name !=null and name!=''">
                 and c.name like '%' #{name}'%'
@@ -266,4 +265,27 @@
             </if>
         </where>
     </select>
+
+    <!--根据id查询市场活动信息-->
+    <select id="selectCustomerById" parameterType="string" resultMap="BaseResultMap">
+        select id, owner, name, website, phone, create_by, create_time, edit_by, edit_time, contact_summary, next_contact_time, description, address
+        from tbl_customer
+        where id = #{id}
+    </select>
+
+    <!--修改客户-->
+    <update id="updateCustomer" parameterType="com.bjpowernode.crm.workbench.domain.Customer">
+        update tbl_customer
+        set owner             = #{owner},
+            name              = #{name},
+            website           = #{website},
+            phone             = #{phone},
+            edit_by           = #{editBy},
+            edit_time         = #{editTime},
+            contact_summary   = #{contactSummary},
+            next_contact_time = #{nextContactTime},
+            description       = #{description},
+            address           = #{address}
+        where id = #{id}
+    </update>
 </mapper>
