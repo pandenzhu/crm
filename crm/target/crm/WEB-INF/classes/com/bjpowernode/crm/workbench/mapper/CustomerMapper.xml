@@ -199,10 +199,21 @@
 
     <!--查询所有客户-->
     <select id="selectAllCustomer" resultMap="BaseResultMap">
-        select
-        id, owner, name, website, phone, create_by, create_time, edit_by, edit_time, contact_summary, next_contact_time, description, address
+        select id,
+               owner,
+               name,
+               website,
+               phone,
+               create_by,
+               create_time,
+               edit_by,
+               edit_time,
+               contact_summary,
+               next_contact_time,
+               description,
+               address
         from tbl_customer
-        where id=#{id}
+        where id = #{id}
     </select>
 
     <!--据条件分页查询客户的列表-->
@@ -268,7 +279,19 @@
 
     <!--根据id查询市场活动信息-->
     <select id="selectCustomerById" parameterType="string" resultMap="BaseResultMap">
-        select id, owner, name, website, phone, create_by, create_time, edit_by, edit_time, contact_summary, next_contact_time, description, address
+        select id,
+               owner,
+               name,
+               website,
+               phone,
+               create_by,
+               create_time,
+               edit_by,
+               edit_time,
+               contact_summary,
+               next_contact_time,
+               description,
+               address
         from tbl_customer
         where id = #{id}
     </select>
@@ -288,4 +311,14 @@
             address           = #{address}
         where id = #{id}
     </update>
+
+    <!--删除客户-->
+    <delete id="deleteCustomerById" parameterType="com.bjpowernode.crm.workbench.domain.Customer">
+        delete
+        from tbl_customer
+        where id in
+        <foreach collection="array" item="id" separator="," close=")" open="(">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

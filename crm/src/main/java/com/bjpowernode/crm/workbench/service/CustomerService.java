@@ -24,4 +24,7 @@ public interface CustomerService {
 
     //修改客户
     int saveEditCustomer(Customer customer);
+
+    //删除客户
+    int deleteCustomerById(String[] id);
 }

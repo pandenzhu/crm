@@ -58,4 +58,11 @@ public interface CustomerMapper {
      * @return
      */
     int updateCustomer(Customer customer);
+
+    /**
+     * 删除客户
+     * @param id
+     * @return
+     */
+    int deleteCustomerById(String[] id);
 }

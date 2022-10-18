@@ -57,8 +57,13 @@ public class CustomerController {
         ReturnObject returnObject = new ReturnObject();
         try {
             int ret = customerService.saveCreateCustomer(customer);
-            returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
-            returnObject.setRetData(ret);
+            if (ret>0){
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+                returnObject.setRetData(ret);
+            }else {
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMsg("创建失败");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
@@ -114,13 +119,39 @@ public class CustomerController {
         ReturnObject returnObject=new ReturnObject();
         try {
             int ret =customerService.saveEditCustomer(customer);
-            returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
-            returnObject.setRetData(ret);
+            if (ret>0){
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+                returnObject.setRetData(ret);
+            }else {
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMsg("修改失败");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
             returnObject.setMsg("修改失败");
         }
         return returnObject;
+    }
+
+    @RequestMapping("/workbench/customer/deleteCustomerIds.do")
+    public @ResponseBody Object deleteCustomerIds(String[] id,HttpSession session){
+
+        ReturnObject returnObject=new ReturnObject();
+        try {
+            int ret =customerService.deleteCustomerById(id);
+            if (ret>0){
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_SUCCESS);
+                returnObject.setRetData(ret);
+            }else {
+                returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+                returnObject.setMsg("删除失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            returnObject.setCode(Contants.RETURN_OBJECT_CODE_FAIL);
+            returnObject.setMsg("删除失败");
+        }
+        return  returnObject;
     }
 }

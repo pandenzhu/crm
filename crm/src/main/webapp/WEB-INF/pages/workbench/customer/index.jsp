@@ -262,8 +262,6 @@
             var owner = $("#query-owner").val();
             var phone = $("#query-phone").val();
             var website = $("#query-website").val();
-            //var pageNo=1;
-            //var pageSize=10;
             //发送请求
             $.ajax({
                 url: 'workbench/customer/queryCustomerByConditionForPage.do',
@@ -491,7 +489,7 @@
                         <div class="form-group">
                             <label for="edit-address" class="col-sm-2 control-label">详细地址</label>
                             <div class="col-sm-10" style="width: 81%;">
-                                <textarea class="form-control" rows="1" id="edit-address">北京大兴大族企业湾</textarea>
+                                <textarea class="form-control" rows="1" id="edit-address"></textarea>
                             </div>
                         </div>
                     </div>
@@ -500,7 +498,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal" id="saveEditCustomerBtn">更新</button>
+                <button type="button" class="btn btn-primary" id="saveEditCustomerBtn">更新</button>
             </div>
         </div>
     </div>
@@ -550,19 +548,15 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-default" id="queryCustomerBtn">查询</button>
+                <button type="button" id="queryCustomerBtn" class="btn btn-default" >查询</button>
 
             </form>
         </div>
         <div class="btn-toolbar" role="toolbar"
              style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
             <div class="btn-group" style="position: relative; top: 18%;">
-                <button type="button" class="btn btn-primary" data-toggle="modal" id="createCustomerBtn" >
-                    <span class="glyphicon glyphicon-plus"></span> 创建
-                </button>
-                <button type="button" class="btn btn-default"  data-toggle="modal" id="editCustomerBtn"><span
-                        class="glyphicon glyphicon-pencil"></span> 修改
-                </button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" id="createCustomerBtn"><span class="glyphicon glyphicon-plus"></span> 创建</button>
+                <button type="button" class="btn btn-default"  data-toggle="modal" id="editCustomerBtn"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
                 <button type="button" class="btn btn-danger" id="deleteCustomerBtn"><span class="glyphicon glyphicon-minus"></span> 删除</button>
             </div>
 
