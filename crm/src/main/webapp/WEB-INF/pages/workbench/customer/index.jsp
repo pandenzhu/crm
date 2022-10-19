@@ -8,18 +8,18 @@
     <base href="<%=basePath%>">
     <meta charset="UTF-8">
 
-    <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
-    <link rel="stylesheet" type="text/css"
-          href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+    <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="jquery/bs_pagination-master/css/jquery.bs_pagination.min.css">
+
 
     <script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
     <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
-    <script type="text/javascript"
-            src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
     <script type="text/javascript" src="jquery/bs_pagination-master/js/jquery.bs_pagination.min.js"></script>
     <script type="text/javascript" src="jquery/bs_pagination-master/localization/en.js"></script>
+
     <script type="text/javascript">
 
         $(function () {
@@ -258,10 +258,10 @@
 
         function queryCustomerByConditionForPage(pageNo, pageSize) {
             //收集参数
-            var name = $("#query-name").val();
-            var owner = $("#query-owner").val();
-            var phone = $("#query-phone").val();
-            var website = $("#query-website").val();
+            var name = $("#query-name").val().trim();
+            var owner = $("#query-owner").val().trim();
+            var phone = $("#query-phone").val().trim();
+            var website = $("#query-website").val().trim();
             //发送请求
             $.ajax({
                 url: 'workbench/customer/queryCustomerByConditionForPage.do',
@@ -548,16 +548,22 @@
                     </div>
                 </div>
 
-                <button type="button" id="queryCustomerBtn" class="btn btn-default" >查询</button>
+                <button type="button" id="queryCustomerBtn" class="btn btn-default">查询</button>
 
             </form>
         </div>
         <div class="btn-toolbar" role="toolbar"
              style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
             <div class="btn-group" style="position: relative; top: 18%;">
-                <button type="button" class="btn btn-primary" data-toggle="modal" id="createCustomerBtn"><span class="glyphicon glyphicon-plus"></span> 创建</button>
-                <button type="button" class="btn btn-default"  data-toggle="modal" id="editCustomerBtn"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
-                <button type="button" class="btn btn-danger" id="deleteCustomerBtn"><span class="glyphicon glyphicon-minus"></span> 删除</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" id="createCustomerBtn"><span
+                        class="glyphicon glyphicon-plus"></span> 创建
+                </button>
+                <button type="button" class="btn btn-default" data-toggle="modal" id="editCustomerBtn"><span
+                        class="glyphicon glyphicon-pencil"></span> 修改
+                </button>
+                <button type="button" class="btn btn-danger" id="deleteCustomerBtn"><span
+                        class="glyphicon glyphicon-minus"></span> 删除
+                </button>
             </div>
 
         </div>

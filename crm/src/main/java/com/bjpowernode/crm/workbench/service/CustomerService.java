@@ -27,4 +27,7 @@ public interface CustomerService {
 
     //删除客户
     int deleteCustomerById(String[] id);
+
+    //查询客户详细信息
+    Customer queryCustomerForDetailById(String id);
 }

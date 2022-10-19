@@ -23,4 +23,11 @@ public interface CustomerRemarkMapper {
      * @return
      */
     int insertCustomerRemarkByList(List<CustomerRemark>list);
+
+    /**
+     * 根据customerId查询客户下所有的备注明细信息
+     * @param customerId
+     * @return
+     */
+    List<CustomerRemark> selectCustomerRemarkForDetailByCustomerId(String customerId);
 }

@@ -126,7 +126,6 @@
             customer_id  = #{customerId,jdbcType=CHAR}
         where id = #{id,jdbcType=CHAR}
     </update>
-
     <!--批量保存客户备注-->
     <insert id="insertCustomerRemarkByList" parameterType="com.bjpowernode.crm.workbench.domain.CustomerRemark">
         insert into tbl_customer_remark (id, note_content, create_by,create_time, edit_flag, customer_id)
@@ -135,4 +134,20 @@
             (#{obj.id}, #{obj.noteContent}, #{obj.createBy},#{obj.createTime},#{obj.editFlag}, #{obj.customerId})
         </foreach>
     </insert>
+
+    <!--查询客户备注详情-->
+    <select id="selectCustomerRemarkForDetailByCustomerId" parameterType="string" resultMap="BaseResultMap">
+        select cr.id,
+               cr.note_content,
+               u1.name as create_by,
+               cr.create_time,
+               u2.name as edit_by,
+               cr.edit_time,
+               cr.edit_flag
+        from tbl_customer_remark cr
+                 join tbl_user u1 on cr.create_by = u1.id
+                 left join tbl_user u2 on cr.edit_by = u2.id
+        where cr.customer_id = #{customerId}
+        order by cr.create_time asc
+    </select>
 </mapper>

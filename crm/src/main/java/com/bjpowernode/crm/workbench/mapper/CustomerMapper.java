@@ -65,4 +65,11 @@ public interface CustomerMapper {
      * @return
      */
     int deleteCustomerById(String[] id);
+
+    /**
+     * 查询客户详细信息
+     * @param id
+     * @return
+     */
+    Customer selectCustomerForDetailById(String id);
 }
