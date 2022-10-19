@@ -30,4 +30,9 @@ public interface CustomerService {
 
     //查询客户详细信息
     Customer queryCustomerForDetailById(String id);
+
+    //查询所有客户名称
+    Customer queryCustomerByName(String name);
+
+    List<String> queryCustomerNameByCustomerName(String name);
 }

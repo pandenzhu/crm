@@ -4,6 +4,8 @@ import com.bjpowernode.crm.settings.domain.DicValue;
 import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.settings.service.DicValueService;
 import com.bjpowernode.crm.settings.service.UserService;
+import com.bjpowernode.crm.workbench.domain.Customer;
+import com.bjpowernode.crm.workbench.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,9 @@ public class TranController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CustomerService customerService;
 
     @RequestMapping("/workbench/transaction/index.do")
     public String index(HttpServletRequest request) {
@@ -56,6 +61,14 @@ public class TranController {
         String possibility = bundle.getString(stageValue);
         //返回相应信息
         return possibility;
+    }
+
+    @RequestMapping("/workbench/transaction/queryCustomerNameByName.do")
+    public @ResponseBody Object queryCustomerNameByName(String customerName){
+        //调用service层方法，查询客户名称
+        List<String>customerNameList=customerService.queryCustomerNameByCustomerName(customerName);
+        //根据查询结果，返回相应信息
+        return customerNameList;
     }
 
 }

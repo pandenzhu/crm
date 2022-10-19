@@ -72,4 +72,18 @@ public interface CustomerMapper {
      * @return
      */
     Customer selectCustomerForDetailById(String id);
+
+    /**
+     *查询所有客户名称
+     * @param name
+     * @return
+     */
+    List<String>selectCustomerNameByCustomerName(String name);
+
+    /**
+     * 根据name精准查询客户
+     * @param name
+     * @return
+     */
+    Customer selectCustomerByName(String name);
 }

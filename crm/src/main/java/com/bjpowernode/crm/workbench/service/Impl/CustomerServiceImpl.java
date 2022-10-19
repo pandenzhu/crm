@@ -53,4 +53,16 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer queryCustomerForDetailById(String id) {
         return customerMapper.selectCustomerForDetailById(id);
     }
+
+    //根据name精准查询客户
+    @Override
+    public Customer queryCustomerByName(String name) {
+        return customerMapper.selectCustomerByName(name);
+    }
+
+    //查询所有客户名称
+    @Override
+    public List<String> queryCustomerNameByCustomerName(String name) {
+        return customerMapper.selectCustomerNameByCustomerName(name);
+    }
 }

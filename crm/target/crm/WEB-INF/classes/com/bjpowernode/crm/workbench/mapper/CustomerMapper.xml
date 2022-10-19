@@ -341,4 +341,19 @@
                  left join tbl_user u3 on c.edit_by = u3.id
         where c.id = #{id}
     </select>
+
+    <!--查询所有客户名称-->
+    <select id="selectCustomerNameByCustomerName" parameterType="string" resultType="string">
+        select name
+        from tbl_customer
+        where name like '%' #{name} '%'
+    </select>
+
+    <!--根据name精准查询客户-->
+    <select id="selectCustomerByName" parameterType="string" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_customer
+        where name = #{name}
+    </select>
 </mapper>
