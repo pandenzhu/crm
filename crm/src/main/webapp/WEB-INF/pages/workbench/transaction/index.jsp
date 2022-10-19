@@ -165,7 +165,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 					</tbody>
 				</table>
 			</div>
-			
+
 			<div style="height: 50px; position: relative;top: 20px;">
 				<div>
 					<button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
@@ -200,7 +200,7 @@ String basePath=request.getScheme()+"://"+request.getServerName()+":"+request.ge
 					</nav>
 				</div>
 			</div>
-			
+
 		</div>
 		
 	</div>
