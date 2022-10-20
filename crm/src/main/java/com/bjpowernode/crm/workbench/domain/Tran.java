@@ -37,6 +37,28 @@ public class Tran {
 
     private String nextContactTime;
 
+    //为了显示交易的明细信息而拓展的属性
+    private String possibility;
+
+    //为了显示交易阶段图标而拓展的属性
+    private String orderNo;
+
+    public String getPossibility() {
+        return possibility;
+    }
+
+    public void setPossibility(String possibility) {
+        this.possibility = possibility;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
+    }
+
     public String getId() {
         return id;
     }
